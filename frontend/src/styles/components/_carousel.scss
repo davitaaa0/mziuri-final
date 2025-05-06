@@ -1,0 +1,99 @@
+.carousel{
+    width: 100%;
+    height: 100vh;
+    background-image: url("https://htmldemo.net/pronia/pronia/assets/images/slider/bg/1-1.jpg");
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+    gap: 5%;
+
+    .slide{
+        width: 50px;
+        height: 50px;
+        background-color: white;
+        color: black;
+        border: 0;
+        font-size: 40px;
+        font-weight: 100;
+        opacity: 0;
+        transition: opacity 0.5s ease, background-color 0.5s, color 0.4s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        &:hover{
+            background-color: #ABD373;
+            color: white;
+        }
+    }
+
+    &:hover .slide{
+        opacity: 1;
+    }
+
+    .inner-carousel{
+        width: 75%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10%;
+        .text-box{
+            width: 50%;
+            transition: opacity 3s ease-in-out; 
+            opacity: 0;
+            h1{
+                font-size: 80px;
+            }
+            h3{
+                font-size: 40px;
+                font-weight: 400;
+            }
+            h4{
+                font-size: 22px;
+                font-weight: 600;
+            }
+            button{
+                width: 200px;
+                height: 60px;
+                text-transform: uppercase;
+                border-radius: 50px;
+                border: 0;
+                color: white;
+                background-color: #ABD373;
+                font-size: 16px;
+                margin-top: 10%;
+                text-align: center;
+                cursor: pointer;
+                transition: background-color 0.5s, color 0.4s;
+                &:hover{
+                    background-color: #525252;
+                    color: white;
+                }
+            }
+            &.fade-in{
+                opacity: 1;
+            }
+            &.fade-out{
+                opacity: 0;
+            }
+        }
+        .img-box{
+            width: 50%;
+            img{
+                transition: transform 0.2s ease, opacity 2s ease-in-out;
+                will-change: transform;
+                pointer-events: none;
+                max-width: 100%;
+                height: auto;
+                opacity: 0;
+                &.fade-in{
+                    opacity: 1;
+                }
+                &.fade-out{
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}

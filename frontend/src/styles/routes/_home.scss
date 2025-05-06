@@ -1,0 +1,29 @@
+.services{
+    width: 100%;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+    margin-top: 15vh;
+    .service{
+        width: 24%;
+        height: 16vh;
+        border: 1px dashed #ABD373;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5%;
+        .text-box{
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            h3{
+                font-size: 20px;
+            }
+            p{
+                color: #3E3E3F;
+            }
+        }
+    }
+}

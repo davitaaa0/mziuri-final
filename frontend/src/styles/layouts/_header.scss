@@ -1,0 +1,107 @@
+header{
+    width: 100%;
+    height: 30vh;
+    
+    .header-top{
+        width: 100%;
+        height: 7vh;
+        background-color: #ABD373;
+        color: white;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 20%;
+        text-transform: uppercase;
+        font-weight: 500 !important;
+        font-size: 14px;
+        .dropdown{
+            width: 10%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            select{
+                background-color: transparent;
+                border: 0;
+                outline: 0;
+                color: white;
+                font-size: 15px;
+                font-weight: 600;
+                option{
+                    color: black;
+                    transition: background 0.3s;
+                    &:hover{
+                        background-color: #ABD373 !important;
+                    }
+                }
+            }
+        }
+    }
+    .header-middle{
+        width: 100%;
+        height: 16vh;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: #525252;
+        .number{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            i{
+                width: 45px;
+                height: 45px;
+                border-radius: 10px;
+                background-color: #ABD373;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+            }
+            a{
+                font-size: 18px;
+                text-decoration: none;
+                color: #525252 !important;
+                transition: color 0.5s;
+                cursor: pointer;
+                &:hover{
+                    color: #ABD373 !important;
+                }
+            }
+        }
+        .icons{
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            font-size: 22px;
+            i{
+                cursor: pointer;
+                transition: color 0.5s;
+                &:hover{
+                    color: #ABD373;
+                }
+            }
+            a{
+                text-decoration: none;
+                color: #525252;
+            }
+        }
+    }
+    .header-bottom{
+        width: 100%;
+        height: 7vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        gap: 2%;
+        a{
+            text-decoration: none;
+            color: #525252 !important;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+}
+
