@@ -1,4 +1,5 @@
 import React from 'react'
+import { UserProvider } from './context/UserContext'
 import { Route, Routes } from 'react-router-dom'
 import { useLoader } from './context/LoaderContext'
 import './styles/app.scss'
@@ -18,7 +19,7 @@ function App() {
   const { loading } = useLoader()
 
   return (
-    <>
+    <UserProvider>
       <Header>
         {loading ? <Loading /> : 
           <Routes>
@@ -41,7 +42,7 @@ function App() {
         }
       </Main>
       <Footer />
-    </>
+    </UserProvider>
   )
 }
 

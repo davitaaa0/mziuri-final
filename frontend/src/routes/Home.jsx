@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react'
+import { useLoader } from '../context/LoaderContext'
 import Carousel from '../components/Carousel.jsx'
+import ProductList from '../components/ProductList.jsx'
 import car from '../assets/icons/car.png'
 import card from '../assets/icons/card.png'
 import service from '../assets/icons/service.png'
-import { useLoader } from '../context/LoaderContext'
+import * as api from '../api/api.jsx'
 
 function Home() {
-  const [state, setState] = useState()
+  const [products, setProducts] = useState()
   const { setLoading } = useLoader()
 
   useEffect(() => {
- 
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then(response => response.json())
-      .then(data => {setState(data); setLoading(false);})
+    const fetchProductsData = async () => {
+      const data = await api.getProducts()
+      console.log(data) 
+      if(data?.data) {
+        setProducts(data.data.slice(0, 8))
+      } else if(data.err) {
+        alert(data.err)
+      }
+      setLoading(false)
+    }
+  
+    fetchProductsData()
   }, [])
 
   return (
@@ -46,6 +56,19 @@ function Home() {
               <h3>Best Services</h3>
               <p>Friendly & Supper Services</p>
             </div>
+          </div>
+        </div>
+        <div className="products">
+          <div  className='products_title'>
+            <h1>our products</h1>
+          </div>
+          <div className='products_filters'>
+            <div className='filter active'>Featured</div>
+            <div className='filter'>Bestseller</div>
+            <div className='filter'>Latest</div>
+          </div>
+          <div className='product-container'>
+            <ProductList products={products} setProducts={setProducts}/>
           </div>
         </div>
     </div>

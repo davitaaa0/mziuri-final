@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { useLoader } from '../context/LoaderContext'
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { useLoader } from '../context/LoaderContext'
+import { UserContext } from '../context/UserContext'
+import { loginUser } from '../api/api'
 import RouteBanner from '../components/RouteBanner.jsx'
 
 function Login() {
     const { setLoading } = useLoader()
+    const {setUserData} = useContext(UserContext)
     const [form, setForm] = useState({
         email: '',
         password: '',
         remember: false,
     })
-
     const [errors, setErrors] = useState({})
     const [submitted, setSubmitted] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {   
         fetch('https://jsonplaceholder.typicode.com/todos/1')
@@ -33,31 +37,43 @@ function Login() {
         return newErrors
     }
 
-    const handleChange = (e) => {
+    const handleFormChange = (e) => {
         const { name, value, type, checked } = e.target
-        setForm({
-            ...form,
-            [name]: type === 'checkbox' ? checked : value,
-        })
+        setForm(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }))
     }
 
-    const handleSubmit = (e) => {
+    const handleLoginFormSubmit = async (e) => {
         e.preventDefault()
-        const validationErrors = validate()
-        setErrors(validationErrors)
         setSubmitted(true)
-
-        if (Object.keys(validationErrors).length === 0) {
-            console.log('Login submitted:', form)
+        const validationErrors = validate()
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors)
+            return
+        }
+    
+        try {
+            const res = await loginUser(form.email, form.password)
+            if(res.data) { 
+                setUserData(res.data)
+                navigate('/')
+            } else if(res.data.err) {
+                alert(res.data.err)
+            }
+        } catch (err) {
+            alert(err.message || "Your password is incorrect")
         }
     }
+    
 
   return (
     <div>
         <RouteBanner />
         <div className='login'>
-            <div class="login_form">
-            <form onSubmit={handleSubmit} action={'#'}>
+            <div className="login_form">
+            <form onSubmit={handleLoginFormSubmit}>
                 <h4 className="login_title">Login</h4>
                 <div className="login_input">
                     <div>
@@ -67,7 +83,7 @@ function Login() {
                             name="email"
                             placeholder="Email Address"
                             value={form.email}
-                            onChange={handleChange}
+                            onChange={handleFormChange}
                         />
                         {submitted && errors.email && <small className="error">{errors.email}</small>}
                     </div>
@@ -80,7 +96,7 @@ function Login() {
                             name="password"
                             placeholder="Password"
                             value={form.password}
-                            onChange={handleChange}
+                            onChange={handleFormChange}
                         />
                         {submitted && errors.password && <small className="error">{errors.password}</small>}
                     </div>
@@ -92,7 +108,7 @@ function Login() {
                             name="remember"
                             id='remember-me'
                             checked={form.remember}
-                            onChange={handleChange}
+                            onChange={handleFormChange}
                         />
                         <label htmlFor="remember-me">Remember Me</label>
                     </div>

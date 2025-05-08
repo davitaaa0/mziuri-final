@@ -7,6 +7,7 @@ import compression from 'compression'
 import logger from './middlewares/logger.js'
 import connectDB from './db/connection.js'
 import ProductsRouter from './routes/products.js'
+import UsersRouter from './routes/users.js'
 import { rateLimit } from 'express-rate-limit'
 
 const app = express()
@@ -35,6 +36,7 @@ app.use(logger)
 app.use(compression())
 
 app.use('/api/products', ProductsRouter)
+app.use('/api/users', UsersRouter)
 
 app.listen(3003, () => {
     console.log('server has started')
