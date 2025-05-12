@@ -1,3 +1,5 @@
+@use '../abstracts/variables' as *;
+
 .services{
     width: 100%;
     height: 30vh;
@@ -8,7 +10,7 @@
     .service{
         width: 24%;
         height: 16vh;
-        border: 1px dashed #ABD373;
+        border: 1px dashed $pronia-primary;
         border-radius: 5px;
         display: flex;
         justify-content: center;
@@ -22,7 +24,7 @@
                 font-size: 20px;
             }
             p{
-                color: #3E3E3F;
+                color: $pronia-secondary;
             }
         }
     }
@@ -42,7 +44,7 @@
             display: inline-block;
             font-weight: bold;
             font-size: 38px;
-            color: #333;
+            color: $pronia-secondary;
             text-transform: uppercase;
             font-weight: 900;
             &::before,
@@ -52,7 +54,7 @@
                 top: 50%;
                 width: 50px;
                 height: 1px;
-                background-color: #a0d468; 
+                background-color: $pronia-primary; 
         
             } 
             &::before {
@@ -74,18 +76,18 @@
         .filter{
             width: 8%;
             height: 7vh;
-            border: 1px solid #cbcbcb;
+            border: 1px solid $border-color;
             border-radius: 5px;
             font-size: 18px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: color 0.3s, border 0.3s;
+            transition: $baseTransition;
             &.active,
             &:hover{
-                border: 1px dashed #ABD373;
-                color: #ABD373;
+                border: 1px dashed $pronia-primary;
+                color: $pronia-primary;
             }
         }
     }
@@ -109,7 +111,7 @@
                     aspect-ratio: 1 / 1;
                     img{
                         width: 100%;
-                        transition: opacity 0.3s ease-in-out;
+                        transition: $baseTransition;
                     }
                     .main-image{
                         display: block;
@@ -132,13 +134,13 @@
                     font-size: 19px;
                     text-decoration: none;
                     color: black;
-                    transition: color 0.3s;
+                    transition: $baseTransition;
                     &:hover{
-                        color: #ABD373;
+                        color: $pronia-primary;
                     }
                 }
                 .price{
-                    color: #ABD373;
+                    color: $pronia-primary;
                 }
                 i{
                     color: yellow;

@@ -1,9 +1,11 @@
+@use '../abstracts/variables' as *;
+
 .shop{
     width: 100%;
     height: 280vh;
     margin-top: 12vh;
     display: flex;
-    gap: 2%;
+    gap: 3%;
     justify-content: center;
     .shop-left{
         display: flex;
@@ -20,7 +22,7 @@
             input{
                 width: 15vw;
                 height: 6vh;
-                border: 1px solid rgb(180, 177, 177);
+                border: 1px solid $border-color;
                 border-radius: 10px;
                 background-color: #F6F7FB;
                 &[placeholder]{
@@ -35,7 +37,7 @@
             button{
                 background-color: transparent;
                 border: 0;
-                color: rgb(180, 177, 177);
+                color: #cfcfcf;
                 font-size: 16px;
                 position: relative;
                 right: 2vw;
@@ -50,7 +52,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
-            color: #6C6C6C;
+            color: $pronia-secondary;
             .heading-wrapper{
                 text-align: center;
                 h1{
@@ -67,7 +69,7 @@
                         transform: translateX(-50%);
                         width: 40px;
                         height: 2px;
-                        background-color: #ABD373;
+                        background-color: $pronia-primary;
                         border-radius: 2px;
                     }
             }
@@ -81,7 +83,7 @@
                 li{
                     width: 80%;
                     height: 4vh;
-                    border-bottom: 1px solid #c2c2c2;
+                    border-bottom: 1px solid #cfcfcf;
                     margin-bottom: 3vh;
                     font-weight: 600;
                     &::marker{
@@ -108,19 +110,19 @@
                             color: transparent;
                         }
                         button{
-                            border: 1px solid #dee2e6;
+                            border: 1px solid $border-color;
                             border-radius: 10px;
                             display: block;
                             padding-top: 5px;
                             padding-left: 15px;
                             padding-right: 15px;
                             padding-bottom: 5px;
-                            color: #7e7e7e;
+                            color: $pronia-secondary;
                             font-size: 16px;
                             background-color: transparent;
-                            transition: background 0.3s, color 0.3s, border 0.3s;
+                            transition: $baseTransition;
                             &:hover{
-                                background-color: #ABD373;
+                                background-color: $pronia-primary;
                                 color: white;
                                 border: 0;
                             }
@@ -149,18 +151,18 @@
             button{
                 width: 120px;
                 height: 44px;
-                background-color: #ABD373;
+                background-color: $pronia-primary;
                 color: white;
                 border: 0;
                 border-radius: 50px;
                 font-size: 14px;
                 text-transform: uppercase;
                 font-weight: 600;
-                transition: background 0.5s;
                 text-align: center;
                 margin-bottom: 7vh;
+                transition: $baseTransition;
                 &:hover{
-                    background-color: #565555;
+                    background-color: $pronia-secondary;
                 }
             }
         }
@@ -178,38 +180,38 @@
             .product-count{
                 width: 16vw;
                 height: 6vh;
-                border: 1px solid #bdbdbd;
+                border: 1px solid $border-color;
                 border-radius: 5px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 gap: 2%;
                 span{
-                    color: #ABD373;
+                    color: $pronia-primary;
                 }
             }
             button{
                 width: 2.5vw;
                 height: 5.6vh;
-                border: 1px solid #bdbdbd;
+                border: 1px solid $border-color;
                 border-radius: 5px;
                 background-color: transparent;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 .fi-sr-grid{
-                    color: #ABD373;
+                    color: $pronia-primary;
                     font-size: 16px;
                 }
                 .fi-sr-apps{
-                    color: #565555;
+                    color: $pronia-secondary;
                     font-size: 16px;
                 }
             }
             .sort{
                 width: 10vw;
                 height: 5.6vh;
-                border: 1px solid #bdbdbd;
+                border: 1px solid $border-color;
                 border-radius: 5px;
                 display: flex;
                 justify-content: center;
@@ -233,7 +235,7 @@
                         height: auto;
                         img{
                             width: 100%;
-                            transition: opacity 0.3s ease-in-out;
+                            transition: $baseTransition;
                         }
                         .main-image{
                             display: block;
@@ -256,13 +258,13 @@
                         font-size: 19px;
                         text-decoration: none;
                         color: black;
-                        transition: color 0.3s;
+                        transition: $baseTransition;
                         &:hover{
-                            color: #ABD373;
+                            color: $pronia-primary;
                         }
                     }
                     .price{
-                        color: #ABD373;
+                        color: $pronia-primary;
                     }
                     i{
                         color: yellow;
@@ -278,27 +280,27 @@
             a{
                 width: 45px;
                 height: 45px;
-                border: 1px solid #cfcfcf;
+                border: 1px solid $border-color;
                 color: #cfcfcf;
                 background-color: transparent;
                 text-decoration: none;
                 display: flex;  
                 justify-content: center;
                 align-items: center;
-                transition: background 0.3s, border 0.3s, color 0.3s;
+                transition: $baseTransition;
                 &:nth-child(2):hover,
                 &:nth-child(3):hover,
                 &:nth-child(4):hover{
-                    background-color: #ABD373;
-                    border: 1px solid #ABD373;
+                    background-color: $pronia-primary;
+                    border: 1px solid $pronia-primary;
                     color: white;
                 }
             }
             .active{
-                border: 1px solid #ABD373;
+                border: 1px solid $pronia-primary;
                 border-top-left-radius: 5px;
                 border-bottom-left-radius: 5px;
-                color: #ABD373;
+                color: $pronia-primary;
             }
             .arrow{
                 border-top-right-radius: 5px;

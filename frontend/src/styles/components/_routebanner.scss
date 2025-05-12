@@ -1,3 +1,5 @@
+@use '../abstracts/variables' as *;
+
 .banner-section{
   width: 100%;
   height: 50vh;
@@ -9,7 +11,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: #525252;
+  color: $pronia-secondary;
   h1{
     font-size: 40px;
     text-transform: uppercase;
@@ -21,10 +23,10 @@
 
     .home-link{
       text-decoration: none;
-      color: #525252  !important;
+      color: $pronia-secondary;
       transition: color 0.5s;
       &:hover{
-        color: #ABD373 !important;
+        color: $pronia-primary;
       }
     }
 
@@ -32,7 +34,7 @@
       width: 10px;
       height: 10px;
       color: transparent;
-      background-color: #ABD373;
+      background-color: $pronia-primary;
       margin: 5px 10px 0 10px;
     }
   }

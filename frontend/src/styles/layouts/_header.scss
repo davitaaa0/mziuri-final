@@ -1,3 +1,5 @@
+@use '../abstracts/variables' as *;
+
 header{
     width: 100%;
     height: 30vh;
@@ -5,7 +7,7 @@ header{
     .header-top{
         width: 100%;
         height: 7vh;
-        background-color: #ABD373;
+        background-color: $pronia-primary;
         color: white;
         display: flex;
         justify-content: space-around;
@@ -28,9 +30,9 @@ header{
                 font-weight: 600;
                 option{
                     color: black;
-                    transition: background 0.3s;
+                    transition: $baseTransition;
                     &:hover{
-                        background-color: #ABD373 !important;
+                        background-color: $pronia-primary;
                     }
                 }
             }
@@ -42,7 +44,8 @@ header{
         display: flex;
         justify-content: space-around;
         align-items: center;
-        color: #525252;
+        border-bottom: 1px solid #cfcfcf;
+        color: $pronia-secondary;
         .number{
             display: flex;
             flex-direction: row;
@@ -52,7 +55,7 @@ header{
                 width: 45px;
                 height: 45px;
                 border-radius: 10px;
-                background-color: #ABD373;
+                background-color: $pronia-primary;
                 text-align: center;
                 display: flex;
                 justify-content: center;
@@ -62,11 +65,11 @@ header{
             a{
                 font-size: 18px;
                 text-decoration: none;
-                color: #525252 !important;
-                transition: color 0.5s;
+                color: $pronia-secondary;
+                transition: $baseTransition;
                 cursor: pointer;
                 &:hover{
-                    color: #ABD373 !important;
+                    color: $pronia-primary;
                 }
             }
         }
@@ -77,14 +80,14 @@ header{
             font-size: 22px;
             i{
                 cursor: pointer;
-                transition: color 0.5s;
+                transition: $baseTransition;
                 &:hover{
-                    color: #ABD373;
+                    color: $pronia-primary;
                 }
             }
             a{
                 text-decoration: none;
-                color: #525252;
+                color: $pronia-secondary;
             }
         }
     }
@@ -98,7 +101,7 @@ header{
         gap: 2%;
         a{
             text-decoration: none;
-            color: #525252 !important;
+            color: $pronia-secondary;
             font-size: 14px;
             font-weight: 600;
         }

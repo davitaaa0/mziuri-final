@@ -1,10 +1,11 @@
-@use './abstracts/variables';
+@use './abstracts/variables' as var;
 @use './abstracts/mixins';
 @use './abstracts/reset';
 @use './abstracts/animations';
 
 @use './routes/home';
 @use './routes/shop';
+@use './routes/contact';
 @use './routes/register';
 @use './routes/login';
  

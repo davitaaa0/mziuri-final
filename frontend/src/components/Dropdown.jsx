@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const Dropdown = ({ label = "Select an option", value = "", onChange, options = [] }) => {
+const Dropdown = ({ label = 'Select an option', value = '', onChange, options = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(value);
   const dropdownRef = useRef(null);
@@ -20,8 +20,8 @@ const Dropdown = ({ label = "Select an option", value = "", onChange, options = 
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -70,8 +70,8 @@ const Dropdown = ({ label = "Select an option", value = "", onChange, options = 
                 cursor: 'pointer',
                 transition: 'background 0.3s',
               }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#ABD373'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#ABD373')}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
             >
               {option.label}
             </li>
