@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { validateEmail, validatePassword } from '../utils/validations.jsx';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useLoader } from '../context/LoaderContext';
@@ -28,24 +29,31 @@ function Login() {
 
   const validate = () => {
     const newErrors = {};
-    if (!form.email.trim()) {
-      newErrors.email = 'Email is required.';
-    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
-      newErrors.email = 'Email is invalid.';
-    }
-    if (!form.password) {
-      newErrors.password = 'Password is required.';
-    }
+
+    const emailError = validateEmail(form.email);
+    if (emailError) newErrors.email = emailError;
+
+    const passwordError = validatePassword(form.password);
+    if (passwordError) newErrors.password = passwordError;
+
     return newErrors;
   };
 
   const handleFormChange = (e) => {
     const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+
     setForm((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: newValue,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: '',
     }));
   };
+
 
   const handleLoginFormSubmit = async (e) => {
     e.preventDefault();
@@ -117,7 +125,7 @@ function Login() {
                 <label htmlFor="remember-me">Remember Me</label>
               </div>
               <div>
-                <Link to="/">Forgotten Password?</Link>
+                <Link to="/forgot-password">Forgotten Password?</Link>
               </div>
             </div>
             <div className="login_button">

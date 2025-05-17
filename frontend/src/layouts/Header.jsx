@@ -1,31 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import dark from '../assets/logos/dark.png'
+import ArrowDropdown from '../components/ArrowDropdown';
+import Dropdown from '../components/Dropdown';
 
 const Header = () => {
-  const images = ['https://htmldemo.net/pronia/pronia/assets/images/logo/dark.png'];
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const currency = ['USD', 'GBP', 'ISO']
+  const languages = ['English', 'French', 'Italian', 'Spanish']
+  const profile = [
+    <i className="fi fi-rr-user"></i>, 
+    <Link to="/">My Account</Link>,
+    <Link to="register">Register</Link>,
+    <Link to="login">Login</Link>
+  ]
+
+  const handleToggle = (index) => {
+    setOpenDropdown(prev => (prev === index ? null : index));
+  };
 
   return (
     <header className="main-header">
       <div className="header-top">
         <p>HELLO EVERYONE! 25% Off All Products</p>
-        <div className="dropdown">
-          <select
-            name="currency"
-            id="currency"
-          >
-            <option value="USD">USD</option>
-            <option value="GBP">GBP</option>
-            <option value="ISO">ISO</option>
-          </select>
-          <select
-            name="language"
-            id="language"
-          >
-            <option value="English">English</option>
-            <option value="French">French</option>
-            <option value="Italian">Italian</option>
-            <option value="Spanish">Spanish</option>
-          </select>
+        <div className="arrowdropdown">
+          <ArrowDropdown 
+            options={currency}
+            isOpen={openDropdown === 0}
+            onToggle={() => handleToggle(0)}
+          />
+          <ArrowDropdown 
+            options={languages}
+            isOpen={openDropdown === 1}
+            onToggle={() => handleToggle(1)}
+          />
         </div>
       </div>
       <div className="header-middle">
@@ -36,19 +44,20 @@ const Header = () => {
         <div className="img-box">
           <Link to={'/'}>
             <img
-              src={images[0]}
+              src={dark}
               alt="Header Logo"
             />
           </Link>
         </div>
         <div className="icons">
           <i className="fi fi-rr-search"></i>
-          <Link to="register">
-            <i className="fi fi-rr-user"></i>
-          </Link>
-          <Link to="login">
-            <i className="fi fi-rr-heart"></i>
-          </Link>
+          <Dropdown 
+            options={profile}
+            isOpen={openDropdown === 2}
+            onToggle={() => handleToggle(2)}
+          >
+          </Dropdown>
+          <i className="fi fi-rr-heart"></i>
           <i className="fi fi-rr-shopping-cart"></i>
         </div>
       </div>

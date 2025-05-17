@@ -180,7 +180,7 @@ function Shop() {
             <Link to={'#'}>2</Link>
             <Link to={'#'}>3</Link>
             <Link
-              classname="arrow"
+              className="arrow"
               to={'#'}
             >
               <i className="fi fi-rr-angle-double-small-right"></i>

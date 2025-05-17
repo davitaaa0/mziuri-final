@@ -24,9 +24,9 @@ function About() {
     <div>
       <RouteBanner />
       <div className="about">
-        <div class="about_content">
-          <h2 class="about_title">Our <span>Story</span></h2>
-          <p class="about_desc">
+        <div className="about_content">
+          <h2 className="about_title">Our <span>Story</span></h2>
+          <p className="about_desc">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim <br/> veniam, quis nostrud
             exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
@@ -34,7 +34,7 @@ function About() {
             sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim <br/> id est
             laborum. Sed ut perspiciatis.
           </p>
-          <div class="about-signature">
+          <div className="about-signature">
             <img src={signature} alt="Signature"/>
           </div>
         </div>
@@ -76,16 +76,16 @@ function About() {
             </div>
           </div>
         </div>
-        <div class="banner">
+        <div className="banner">
           <div className="banner_container">
-            <div class="banner_item">
-              <div class="popup_btn">
-                <Link class="popup_video wave-btn" to="https://player.vimeo.com/video/172601404?autoplay=1">
+            <div className="banner_item">
+              <div className="popup_btn">
+                <Link className="popup_video wave-btn" to="https://player.vimeo.com/video/172601404?autoplay=1">
                   <span></span>
                   <span></span>
                   <span></span>
-                  <div class="icon">
-                    <i class="fi fi-rr-play"></i>
+                  <div className="icon">
+                    <i className="fi fi-rr-play"></i>
                   </div>
                 </Link>
               </div>

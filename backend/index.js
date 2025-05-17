@@ -38,7 +38,7 @@ app.use(compression())
 app.use('/api/products', ProductsRouter)
 app.use('/api/users', UsersRouter)
 
-app.listen(3003, () => {
+app.listen(process.env.PORT, () => {
     console.log('server has started')
     connectDB(process.env.CONNECTION_STRING)
 })

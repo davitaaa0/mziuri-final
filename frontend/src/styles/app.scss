@@ -10,9 +10,10 @@
 @use './routes/register';
 @use './routes/login';
  
-@use './components/loading';
 @use './components/carousel';
 @use './components/routebanner';
+@use './components/arrowdropdown';
+@use './components/dropdown';
 
 @use './layouts/header';
 @use './layouts/main';

@@ -13,6 +13,8 @@ function RouteBanner() {
     '/blog': 'Blog',
     '/register': 'Register Page',
     '/login': 'Login Page',
+    '/forgot-password': 'Forgot Password',
+    '/reset-password': 'Reset Password'
   };
 
   const locaTitles = {
@@ -23,6 +25,8 @@ function RouteBanner() {
     '/blog': 'Blog Grid View',
     '/register': 'Register',
     '/login': 'Login',
+    '/forgot-password': 'Restore Password',
+    '/reset-password': 'Reset Password'
   };
 
   const heading = headingTitles[currentPath] || 'Page';

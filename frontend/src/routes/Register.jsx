@@ -4,6 +4,13 @@ import { registerUser } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import RouteBanner from '../components/RouteBanner.jsx';
+import {
+  validateFirstName,
+  validateLastName,
+  validateEmail,
+  validatePassword,
+  validateConfirmPassword,
+} from '../utils/validations.jsx'; 
 
 function Register() {
   const { setUserData } = useContext(UserContext);
@@ -28,28 +35,40 @@ function Register() {
   }, []);
 
   const validate = () => {
-    const newErrors = {};
-    if (!form.firstName.trim()) newErrors.firstName = 'First name is required.';
-    if (!form.lastName.trim()) newErrors.lastName = 'Last name is required.';
-    if (!form.email.trim()) {
-      newErrors.email = 'Email is required.';
-    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
-      newErrors.email = 'Email is invalid.';
-    }
-    if (!form.password) newErrors.password = 'Password is required.';
-    if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match.';
-    }
+  const newErrors = {};
 
-    return newErrors;
-  };
+  const firstNameError = validateFirstName(form.firstName);
+  if (firstNameError) newErrors.firstName = firstNameError;
+
+  const lastNameError = validateLastName(form.lastName);
+  if (lastNameError) newErrors.lastName = lastNameError;
+
+  const emailError = validateEmail(form.email);
+  if (emailError) newErrors.email = emailError;
+
+  const passwordError = validatePassword(form.password);
+  if (passwordError) newErrors.password = passwordError;
+
+  const confirmPasswordError = validateConfirmPassword(form.password, form.confirmPassword);
+  if (confirmPasswordError) newErrors.confirmPassword = confirmPasswordError;
+
+  return newErrors;
+};
 
   const handleFormChange = (e) => {
-    setForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const { name, value } = e.target;
+
+  setForm((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+
+  setErrors((prev) => ({
+    ...prev,
+    [name]: '',
+  }));
+};
+
 
   const handleRegisterFormSubmit = async (e) => {
     e.preventDefault();
@@ -148,7 +167,7 @@ function Register() {
                 )}
               </div>
             </div>
-            {errors.general && <small className="error">{errors.general}</small>}
+            {errors.general && <small Name="error">{errors.general}</small>}
             <div className="register_button">
               <button type="submit">Register</button>
             </div>

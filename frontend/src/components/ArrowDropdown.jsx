@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Dropdown = ({ options, isOpen, onToggle }) => {
+const ArrowDropdown = ({ options, isOpen, onToggle }) => {
   const [selected, setSelected] = useState(null);
 
   const handleSelect = (option) => {
@@ -9,17 +9,17 @@ const Dropdown = ({ options, isOpen, onToggle }) => {
   };
 
   return (
-    <div className='dropdown_menu'>
+    <div className='arrowdropdown_menu'>
       <div
         className='selected'
         onClick={onToggle}
       >
-        {options[0]}
+        {selected || options[0]} <i className="fi fi-rr-angle-small-down"></i>
       </div>
 
       {isOpen && (
         <div className='options'>
-          {options.toSpliced(0, 1).map((option, index) => (
+          {options.map((option, index) => (
             <div
               key={index}
               onClick={() => handleSelect(option)}
@@ -34,4 +34,4 @@ const Dropdown = ({ options, isOpen, onToggle }) => {
   );
 };
 
-export default Dropdown;
+export default ArrowDropdown;

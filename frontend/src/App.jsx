@@ -13,6 +13,8 @@ import Shop from './routes/Shop.jsx';
 import Blog from './routes/Blog.jsx';
 import Register from './routes/Register.jsx';
 import Login from './routes/Login.jsx';
+import ForgotPassword from './routes/ForgotPassword.jsx';
+import ResetPassword from './routes/ResetPassword.jsx';
 import Loading from './components/Loading.jsx';
 
 function App() {
@@ -20,10 +22,10 @@ function App() {
 
   return (
     <UserProvider>
-      <Header>
-        {loading ? (
-          <Loading />
+      {loading ? (
+        <Loading />
         ) : (
+        <Header>
           <Routes>
             <Route
               path="/register"
@@ -34,8 +36,8 @@ function App() {
               element={<Login />}
             />
           </Routes>
-        )}
-      </Header>
+        </Header>
+      )}
       <Main>
         {loading ? (
           <Loading />
@@ -68,6 +70,14 @@ function App() {
             <Route
               path="/login"
               element={<Login />}
+            />
+            <Route
+              path="/forgot-password"
+              element={<ForgotPassword />}
+            />
+            <Route
+              path="/reset-password/:token"
+              element={<ResetPassword />}
             />
           </Routes>
         )}

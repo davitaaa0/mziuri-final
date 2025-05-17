@@ -20,7 +20,7 @@ export const loginUser = async (email, password) => {
       withCredentials: true,
     }
   );
-  return response;
+  return response.data;
 };
 
 export const logoutUser = async () => {
@@ -61,19 +61,15 @@ export const registerUser = async (firstname, lastname, email, password) => {
   }
 };
 
-export const updateUser = async (userId, newInfo) => {
-  try {
-    const response = await axios.put(
-      'http://localhost:3003/api/users/updateUser',
-      JSON.stringify({ userId, newInfo }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      }
-    );
-    return response.data;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-};
+export const forgotPasswordUser = (data) => {
+  return axios.put(`http://localhost:3003/api/users/forgot-password`, data, {
+    withCredentials: true,
+  });
+}
+
+export const resetPasswordUser = (data, token) => {
+  return axios.put(`http://localhost:3003/api/users/reset-password`, data, {
+    headers: { Authorization: token },
+    withCredentials: true,
+  });
+}
