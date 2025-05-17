@@ -12,8 +12,7 @@ function ForgotPassword() {
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then((response) => response.json())
-      .then((data) => {
-        setState(data);
+      .then(() => {
         setLoading(false);
       });
   }, []);
@@ -39,8 +38,6 @@ function ForgotPassword() {
 
       if (response.data) {
         alert('email has sent')
-        // setLoggedIn(true);
-        // navigate('/explore');
       }
     } catch (err) {
       throw err;

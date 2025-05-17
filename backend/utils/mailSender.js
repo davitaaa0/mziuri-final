@@ -2,7 +2,8 @@ import nodemailer from "nodemailer";
 
 const mailSender = async (from, to, url) => {
     let transporter = null
-    try{transporter = nodemailer.createTransport({
+    try{
+        transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
             user: from,
@@ -38,14 +39,12 @@ const mailSender = async (from, to, url) => {
         </div>
         `
     }
-    console.log('here')
-    await transporter.sendMail(mailOptions, (err, data) => {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log('success')
-        }
-    });
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log("Email sent successfully");
+    } catch (err) {
+        console.log("Error sending email:", err);
+    }
 }
 
 export default mailSender

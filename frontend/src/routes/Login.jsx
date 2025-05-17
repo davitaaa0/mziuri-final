@@ -22,7 +22,7 @@ function Login() {
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         setLoading(false);
       });
   }, []);
