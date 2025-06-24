@@ -28,39 +28,46 @@ app.use(limiter)
 
 app.use(cors({
   origin: [
-    'http://localhost:5173',
-    process.env.FRONTEND_URL 
+    'http://localhost:3003',   
+    'http://localhost:5173',       
+    'https://davitaspronia.onrender.com'
   ],
   credentials: true
 }))
 
 app.use(helmet())
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    imgSrc: ["'self'", "data:", "http://localhost:3003", "https://htmldemo.net"],
-    styleSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        "https://fonts.googleapis.com",
-        "https://cdn-uicons.flaticon.com"
-    ],
-    fontSrc: [
-      "'self'",
-      "data:", 
-      "https://fonts.gstatic.com",
-      "https://cdn-uicons.flaticon.com",
-      "https://cdnjs.cloudflare.com"
-    ],
-    scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-    connectSrc: [
-      "'self'",  
-      "http://localhost:3003",
-      "https://davitaspronia.onrender.com",
-      process.env.FRONTEND_URL
-    ]
-  }
-}))
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "http://localhost:3003", "https://htmldemo.net"],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+          "https://cdn-uicons.flaticon.com"
+        ],
+        fontSrc: [
+          "'self'",
+          "data:", 
+          "https://fonts.gstatic.com",
+          "https://cdn-uicons.flaticon.com",
+          "https://cdnjs.cloudflare.com"
+        ],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        connectSrc: [
+          "'self'",  
+          "http://localhost:3003",
+          "https://jsonplaceholder.typicode.com",
+          "https://davitaspronia.onrender.com"
+        ],
+      }
+    }
+  })
+);
+
 
 app.use(express.json())
 app.use(cookieParser())
