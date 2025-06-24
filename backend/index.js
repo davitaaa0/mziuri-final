@@ -38,10 +38,20 @@ app.use(helmet())
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
-    imgSrc: ["'self'", "data:", "https://htmldemo.net"],
-    styleSrc: ["'self'", "'unsafe-inline'"],
+    imgSrc: ["'self'", "data:", "http://localhost:3003", "https://htmldemo.net"],
+    styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com",
+        "https://cdn-uicons.flaticon.com"
+    ],
+    fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+        "https://cdn-uicons.flaticon.com"
+    ],
     scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-    connectSrc: ["'self'", process.env.FRONTEND_URL],
+    connectSrc: ["'self'", process.env.FRONTEND_URL, "http://localhost:3003"]
   }
 }))
 
