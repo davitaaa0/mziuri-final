@@ -1,36 +1,49 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link,  matchPath, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function RouteBanner() {
   const location = useLocation();
   const currentPath = location.pathname;
+  const {t} = useTranslation()
 
   const headingTitles = {
-    '/': 'Home',
-    '/contact': 'Contact',
-    '/about': 'About',
-    '/shop': 'Shop',
-    '/blog': 'Blog',
-    '/register': 'Register Page',
-    '/login': 'Login Page',
-    '/forgot-password': 'Forgot Password',
-    '/reset-password': 'Reset Password'
+    '/': t('Home'),
+    '/contact': t('Contact'),
+    '/about': t('About'),
+    '/shop': t('Shop'),
+    '/blog': t('Blog'),
+    '/register': t('Register'),
+    '/login': t('Login'),
+    '/forgot-password': t('ForgotPassword'),
+    '/reset-password': t('ResetPassword'),
+    '/myaccount': t('MyAccountPage'),
+    '/cart': t('CartPage'),
+    '*': t('Error') + ' 404',
   };
 
   const locaTitles = {
-    '/': 'Home',
-    '/contact': 'Contact Us',
-    '/about': 'About Us',
-    '/shop': 'Shop Default',
-    '/blog': 'Blog Grid View',
-    '/register': 'Register',
-    '/login': 'Login',
-    '/forgot-password': 'Restore Password',
-    '/reset-password': 'Reset Password'
+    '/': t('Home'),
+    '/contact': t('ContactUs'),
+    '/about': t('AboutUs'),
+    '/shop': t('ShopDefault'),
+    '/blog': t('BlogGrid'),
+    '/register': t('Register'),
+    '/login': t('Login'),
+    '/forgot-password': t('ForgotPassword'),
+    '/reset-password': t('ResetPassword'),
+    '/myaccount': t('MyAccount'),
+    '/cart': t('Cart'),
+    '*': '404'
   };
 
-  const heading = headingTitles[currentPath] || 'Page';
-  const loca = locaTitles[currentPath] || 'Page';
+  const is404 = !Object.keys(headingTitles)
+  .filter((path) => path !== '*')
+  .some((path) => matchPath({ path, end: true }, currentPath));
+
+
+  const heading = is404 ? t('Error') + ' 404' : headingTitles[currentPath] || t('Page');
+  const loca = is404 ? '404' : locaTitles[currentPath] || t('Page');
 
   return (
     <div className="banner-section">
@@ -40,7 +53,7 @@ function RouteBanner() {
           to={'/'}
           className="home-link"
         >
-          Home
+          {t('Home')}
         </Link>
         <div> . </div>
         {loca}

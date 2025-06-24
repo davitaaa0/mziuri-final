@@ -15,6 +15,7 @@ function ForgotPassword() {
       .then(() => {
         setLoading(false);
       });
+      document.title = 'Pronia - Forgot Password';
   }, []);
 
   const handleChange = (e) => {

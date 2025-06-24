@@ -1,0 +1,36 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/animations' as *;
+
+.scroll-to-top{
+    background-color: black;
+    border-radius: 4px;
+    color: #ffffff;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    z-index: 999;
+    overflow: hidden;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden; 
+    animation: fadeOutDown 1s normal;
+    transition: $baseTransition;
+    &:hover{
+        background-color: $pronia-primary;
+    }
+    &.show{
+        opacity: 1;
+        visibility: visible;
+        animation: fadeInUp 1s normal;
+    }
+    i{
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        transition: all 0.3s ease 0s;
+        color: #ffffff;
+        display: inline-block;
+    }
+}

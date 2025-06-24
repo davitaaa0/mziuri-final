@@ -1,0 +1,48 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/animations' as *;
+
+.wave{
+    &-btn {
+        margin: auto;
+        display: block;
+        position: relative;
+        width: 250px;
+        height: 250px;
+        & > .icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            i {
+                display: block;
+                width: 100px;
+                height: 100px;
+                line-height: 110px;
+                text-align: center;
+                background: white;
+                border-radius: 50%;
+                color: $pronia-primary;
+                font-size: 40px;
+            }
+        }
+        span {
+            background: $pronia-primary;
+            position: absolute;
+            border-radius: 50%;
+            width: 250px;
+            height: 250px;
+            &:nth-child(1) {
+                background: $pronia-primary;
+                animation: wave-button 2s infinite 0.1s linear backwards;
+            }
+            &:nth-child(2) {
+                background: $pronia-primary;
+                animation: wave-button 3s infinite 0.5s linear backwards;
+            }
+            &:nth-child(3) {
+                background: $pronia-primary;
+                animation: wave-button 4s infinite 1s linear backwards;
+            }
+        }
+    }
+}

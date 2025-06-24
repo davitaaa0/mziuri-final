@@ -1,3 +1,5 @@
+@use '../abstracts/variables' as *;
+
 *{
     padding: 0;
     margin: 0;
@@ -5,7 +7,49 @@
     font-family: "Nunito", sans-serif;
 }
 
+body{
+    overflow-x: hidden !important;
+}
+
 ::selection{
     background-color: #ABD373;
     color: white;
+}
+
+.home-title{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    h1{
+        position: relative;
+        display: inline-block;
+        font-weight: bold;
+        font-size: 38px;
+        color: #2D2D2D;
+        text-transform: uppercase;
+        font-weight: 900;
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 50px;
+            height: 1px;
+            background-color: $pronia-primary;
+        } 
+        &::before {
+            left: -60px; 
+            transform: translateY(-50%);
+        }
+        &::after {
+            right: -60px; 
+            transform: translateY(-50%);
+        }
+        @media (max-width: 768px) {
+            &::before,
+            &::after{
+                display: none;
+            }
+        }
+    }
 }

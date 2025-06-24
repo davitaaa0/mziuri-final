@@ -1,0 +1,94 @@
+@use '../abstracts/variables' as *;
+
+.product{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    .image-container{
+        position: relative;
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        img{
+            width: 100%;
+            transition: $baseTransition;
+        }
+        .main-image{
+            display: block;
+        }
+        .hover-image{
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+        &:hover .hover-image{
+            opacity: 1;
+        }
+        &:hover .main-image{
+            opacity: 0;
+        }
+        .product-actions{
+            position: absolute;
+            bottom: 0;
+            left: 23%;
+            display: flex;
+            flex-direction: row;
+            gap: 5%;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: $baseTransition;
+            button {
+                width: 40px;
+                height: 40px;
+                border: none;
+                background-color: white;
+                font-size: 16px;
+                cursor: pointer;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                .fi-rr-heart,
+                .fi-rr-eye,
+                .fi-rr-shopping-cart{
+                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+                    background-color: #ffffff;
+                    color: $pronia-secondary;
+                    font-size: 20px;
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    text-align: center;
+                    display: block;
+                    transition: $baseTransition;
+                    &:hover {
+                        background-color: $pronia-primary;
+                        color: white;
+                    }
+                }
+            }
+        }
+        &:hover .product-actions {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
+    .name{
+        font-weight: 500;
+        font-size: 19px;
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+        transition: $baseTransition;
+        &:hover {
+            color: $pronia-primary;
+        }
+    }
+    .price{
+        color: $pronia-primary;
+        cursor: pointer;
+    }
+    .fi-ss-star{
+        color: yellow;
+        cursor: pointer;
+    }
+}
+

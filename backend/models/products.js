@@ -1,18 +1,23 @@
 import mongoose from "mongoose";
 
+const translationSchema = new mongoose.Schema({
+    en: String,
+    es: String,
+    fr: String,
+    it: String
+});
+
+const currencySchema = new mongoose.Schema({
+    usd: String,
+    gel: String,
+    gbp: String
+});
+
 const ProductsSchema = new mongoose.Schema({
-    title: {
-        type: String
-    },
-    image: {
-        type: String
-    },
-    price: {
-        type: String
-    },
-    rating: {
-        type: String
-    }
+    title: translationSchema,
+    image: String,
+    price: currencySchema,
+    rating: String
 },
     {timestamps: true}
 )

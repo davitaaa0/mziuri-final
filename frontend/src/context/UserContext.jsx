@@ -1,13 +1,73 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { CartContext } from './CartContext';
 
 const UserContext = createContext({
   userData: null,
+  setUserData: () => {},
 });
 
 const UserProvider = ({ children }) => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(() => {
+    const savedUser = localStorage.getItem('userData');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
-  return <UserContext.Provider value={{ userData, setUserData }}>{children}</UserContext.Provider>;
+  useEffect(() => {
+    if (userData) {
+      localStorage.setItem('userData', JSON.stringify(userData));
+    } else {
+      localStorage.removeItem('userData');
+    }
+  }, [userData]);
+
+  return (
+    <UserContext.Provider value={{ userData, setUserData }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
-export { UserContext, UserProvider };
+const syncCartAfterLogin = async (token, setCartItems) => {
+  try {
+    const res = await fetch('http://localhost:3000/api/cart', {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
+    });
+    const backendItems = await res.json();
+
+    const localItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const merged = mergeCarts(localItems, backendItems);
+
+    setCartItems(merged);
+    localStorage.setItem('cart', JSON.stringify(merged));
+
+    await fetch('http://localhost:3000/api/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: 'include',
+      body: JSON.stringify({ items: merged }),
+    });
+  } catch (err) {
+    console.error('Cart sync error:', err);
+  }
+};
+
+const mergeCarts = (local, backend) => {
+  const map = new Map();
+  [...local, ...backend].forEach((item) => {
+    const id = item.productId?._id || item.productId || item._id;
+    if (!map.has(id)) {
+      map.set(id, { ...item });
+    } else {
+      map.get(id).quantity += item.quantity;
+    }
+  });
+  return Array.from(map.values());
+};
+
+export { UserContext, UserProvider, syncCartAfterLogin, mergeCarts };
+

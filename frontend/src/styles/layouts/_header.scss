@@ -1,6 +1,7 @@
 @use '../abstracts/variables' as *;
+@use '../abstracts/animations' as *;
 
-header{
+.main-header{
     width: 100%;
     height: 30vh;
     .header-top{
@@ -56,7 +57,28 @@ header{
             flex-direction: row;
             gap: 20px;
             font-size: 22px;
+            .mobile-menu-toggle {
+                display: none;
+                background: none;
+                border: none;
+                font-size: 22px;
+                color: $pronia-secondary;
+                cursor: pointer;
+                &:hover {
+                    color: $pronia-primary;
+                }
+            }
+            .desktop-only{
+                display: flex;
+                gap: 20px;
+            }
+            button{
+                background-color: transparent;
+                border: 0;
+                color: $pronia-secondary;
+            }
             i{
+                font-size: 22px;
                 cursor: pointer;
                 transition: $baseTransition;
                 &:hover{
@@ -77,12 +99,139 @@ header{
         align-items: center;
         flex-direction: row;
         gap: 2%;
-        a{
+        a{  
+            width: auto;
+            height: 100%;
             text-decoration: none;
+            text-transform: uppercase;
             color: $pronia-secondary;
             font-size: 14px;
             font-weight: 600;
+            transition: $baseTransition;
+            &:hover{
+                color: $pronia-primary;
+            }
+        }
+    }
+    .mobile-menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+    .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 350px;
+        height: 100vh;
+        background-color: #333333;
+        z-index: 1000;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
+        animation: fadeInLeft 0.5s ease forwards;
+        &-close{
+            border: 0;
+            background-color: transparent;
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            i{
+                color: white;
+            }
+        }
+        .dropdowns{
+            max-width: 50%;
+            display: flex;
+            flex-direction: row;
+            color: white;
+            gap: 10%;
+            .options{
+                width: 80%;
+                .option{
+                    width: 100%;
+                    button{
+                        width: 100%;   
+                        padding: 5px 10px 5px 10px;
+                    }
+                }
+            }
+            i{
+                cursor: pointer;
+            }
+        }
+        .number{
+            margin-top: 100px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            i{
+                width: 45px;
+                height: 45px;
+                border-radius: 10px;
+                background-color: $pronia-primary;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+            }
+            a{
+                font-size: 18px;
+                text-decoration: none;
+                color: white;
+                transition: $baseTransition;
+                cursor: pointer;
+                &:hover{
+                    color: $pronia-primary;
+                }
+            }
+        }
+        .routes{
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+            a{
+                text-decoration: none;
+                text-transform: uppercase;
+                color: white;
+                font-size: 14px;
+                font-weight: 600;
+            }
         }
     }
 }
 
+@media (max-width: 991px) {
+    .main-header{
+        height: 15vh;
+    }
+    .main-header .header-top{
+        display: none;
+    }
+    .main-header .header-middle{
+        gap: 40%;
+        .number{
+            display: none;
+        }
+    }
+    .main-header .header-bottom{
+        display: none;
+    }
+    .main-header .icons {
+        .desktop-only {
+            display: none !important;
+        }
+        .mobile-menu-toggle {
+        display: block !important;
+        }
+    } 
+    .main-header .mobile-menu {
+        display: flex !important;
+    }
+}

@@ -73,3 +73,35 @@ export const resetPasswordUser = (data, token) => {
     withCredentials: true,
   });
 }
+
+export const deleteCart = async () => {
+  const res = await fetch('http://localhost:3003/api/cart', {
+    method: 'DELETE',
+    credentials: 'include', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const result = await res.json();
+  console.log('[deleteCart] Response:', result);
+
+  if (!res.ok) {
+    throw new Error(result.message || 'Failed to delete cart');
+  }
+
+  return result;
+};
+
+export const saveCart = async (items) => {
+  const res = await fetch('http://localhost:3003/api/cart', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items })
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Failed to save cart');
+  return data;
+};

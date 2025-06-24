@@ -25,6 +25,7 @@ function Login() {
       .then(() => {
         setLoading(false);
       });
+      document.title = 'Pronia - Login';
   }, []);
 
   const validate = () => {
@@ -58,6 +59,7 @@ function Login() {
   const handleLoginFormSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -66,16 +68,23 @@ function Login() {
 
     try {
       const res = await loginUser(form.email, form.password);
-      if (res.data) {
+
+      if (res && res.data) {
         setUserData(res.data);
+        if (form.remember) {
+          localStorage.setItem('userData', JSON.stringify(res.data));
+        }
         navigate('/');
-      } else if (res.data.err) {
-        alert(res.data.err);
+      } else if (res.err) {
+        alert(res.err);
+      } else {
+        alert('Unexpected response from server');
       }
     } catch (err) {
-      alert(err.message || 'Your password is incorrect');
+      alert(err.response?.data?.message || err.message || 'Your password is incorrect');
     }
-  };
+};
+
 
   return (
     <div>
@@ -129,7 +138,7 @@ function Login() {
               </div>
             </div>
             <div className="login_button">
-              <button type="submit">Login</button>
+              <input type="submit"/>
             </div>
           </form>
         </div>

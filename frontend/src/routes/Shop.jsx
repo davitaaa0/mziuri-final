@@ -1,16 +1,46 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useLoader } from '../context/LoaderContext';
 import { Box, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import * as api from '../api/api.jsx';
 import Slider from '@mui/material/Slider';
 import RouteBanner from '../components/RouteBanner.jsx';
 import ProductList from '../components/ProductList.jsx';
+import ArrowDropdown from '../components/ArrowDropdown.jsx'
 
 function Shop() {
   const [products, setProducts] = useState();
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [value, setValue] = useState([16, 300]);
   const { setLoading } = useLoader();
-  const [value, setValue] = useState([16, 350]);
+  const { t } = useTranslation();
+
+  const handleToggle = (index) => {
+    setOpenDropdown(openDropdown === index ? null : index);
+  };
+
+  const handleActive = (index) => {
+    setActiveIndex(index);
+  };
+
+  const sorting = [
+    "Sort by Default",
+    "Sort by Popularity",
+    "Sort by Rated",
+    "Sort by Latest",
+    "Sort by High Price",
+    "Sort by Low Price"
+  ].map((label, index) => (
+    <button
+      key={index}
+      onClick={() => handleActive(index)}
+      className={activeIndex === index ? 'sortBtn active' : 'sortBtn'}
+    >
+      {label}
+    </button>
+  ));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -27,7 +57,8 @@ function Shop() {
       }
       setLoading(false);
     };
-
+    
+    document.title = 'Pronia - Shop';
     fetchProductsData();
   }, []);
 
@@ -39,7 +70,7 @@ function Shop() {
           <div className="search">
             <input
               type="search"
-              placeholder="Search"
+              placeholder={t('Search')}
             />
             <button>
               <i className="fi fi-rr-search"></i>
@@ -48,33 +79,33 @@ function Shop() {
           <div className="filter-section">
             <div className="categorie-filter">
               <div className="heading-wrapper">
-                <h1>Categories</h1>
+                <h1>{t('Categories')}</h1>
               </div>
               <ul className="categories">
-                <li>All (65)</li>
-                <li>Bansai (12)</li>
-                <li>House Plants (22)</li>
-                <li>Indoor Living (19)</li>
-                <li>Perennnials (17)</li>
-                <li>Plant For Gift (01)</li>
-                <li>Garden Tools (12)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('All')} (65)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('Bansai')} (12)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('HousePlants')} (22)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('IndoorLiving')} (19)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('Perennials')} (17)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('PlantForGift')} (01)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('GardenTools')} (12)</li>
               </ul>
             </div>
             <div className="color-filter">
               <div className="heading-wrapper">
-                <h1>Color</h1>
+                <h1>{t('Color')}</h1>
               </div>
               <ul className="colors">
-                <li>All (65)</li>
-                <li>Gold (12)</li>
-                <li>Green (22)</li>
-                <li>White (13)</li>
-                <li>Black (17)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('All')} (65)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('Gold')} (12)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('Green')} (22)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('White')} (13)</li>
+                <li><i className="fi fi-rr-angle-small-right"></i>{t('Black')} (17)</li>
               </ul>
             </div>
             <div className="price">
               <div className="heading-wrapper">
-                <h1>Price Filter</h1>
+                <h1>{t('PriceFilter')}</h1>
               </div>
               <Box
                 width={'80%'}
@@ -85,10 +116,10 @@ function Shop() {
                   justifyContent="space-between"
                   mb={1}
                 >
-                  <Typography sx={{ background: '#AEDC8F', px: 1, borderRadius: 1 }}>
+                  <Typography sx={{ background: '#AEDC8F', px: 1, borderRadius: 1, color: 'white' }}>
                     ${value[0]}
                   </Typography>
-                  <Typography sx={{ background: '#AEDC8F', px: 1, borderRadius: 1 }}>
+                  <Typography sx={{ background: '#AEDC8F', px: 1, borderRadius: 1, color: 'white' }}>
                     ${value[1]}
                   </Typography>
                 </Box>
@@ -104,6 +135,8 @@ function Shop() {
                     '& .MuiSlider-thumb': {
                       width: 20,
                       height: 20,
+                      color: 'white',
+                      border: '3px solid #AEDC8F',
                       '&:before': {
                         boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
                       },
@@ -121,48 +154,52 @@ function Shop() {
             </div>
             <div className="popular-tags">
               <div className="heading-wrapper">
-                <h1>Popular Tags</h1>
+                <h1>{t('PopularTags')}</h1>
               </div>
               <ul className="tags">
                 <li className="tag">
-                  <button>Fashion</button>
+                  <button>{t('Fashion')}</button>
                 </li>
                 <li className="tag">
-                  <button>Organic</button>
+                  <button>{t('Organic')}</button>
                 </li>
                 <li className="tag">
-                  <button>Old Fashion</button>
+                  <button>{t('OldFashion')}</button>
                 </li>
                 <li className="tag">
-                  <button>Men</button>
+                  <button>{t('Men')}</button>
                 </li>
                 <li className="tag">
-                  <button>Fashion</button>
+                  <button>{t('Fashion')}</button>
                 </li>
                 <li className="tag">
-                  <button>Dress</button>
+                  <button>{t('Dress')}</button>
                 </li>
               </ul>
             </div>
           </div>
           <div className="advertisement">
-            <h4>New Collection</h4>
-            <h1>Plant Port</h1>
-            <button>Shop Now</button>
+            <h4>{t('NewCollection')}</h4>
+            <h1>{t('PlantPort')}</h1>
+            <button>{t('ShopNow')}</button>
           </div>
         </div>
         <div className="shop-right">
           <div className="header">
             <div className="product-count">
-              <span>12</span> Product Found of <span>30</span>
+              <span>12</span> {t('ProductsFound')} <span>30</span>
             </div>
-            <button>
+            <button className='placing'>
               <i className="fi fi-sr-grid"></i>
             </button>
-            <button>
+            <button className='placing'>
               <i className="fi fi-sr-apps"></i>
             </button>
-            <div className="sort">Sort by Default</div>
+            <ArrowDropdown
+              options={sorting}
+              isOpen={openDropdown === 2}
+              onToggle={() => handleToggle(2)}
+            />
           </div>
           <div className="product-container">
             <ProductList

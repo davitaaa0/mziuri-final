@@ -32,6 +32,7 @@ function Register() {
       .then(() => {
         setLoading(false);
       });
+      document.title = 'Pronia - Register';
   }, []);
 
   const validate = () => {

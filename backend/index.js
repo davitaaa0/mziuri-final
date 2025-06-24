@@ -8,7 +8,11 @@ import logger from './middlewares/logger.js'
 import connectDB from './db/connection.js'
 import ProductsRouter from './routes/products.js'
 import UsersRouter from './routes/users.js'
+import CartRouter from './routes/cart.js'
 import { rateLimit } from 'express-rate-limit'
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { URL } from 'url';
 
 const app = express()
 
@@ -23,11 +27,10 @@ const limiter = rateLimit({
 app.use(limiter)
 
 app.use(cors({
-    origin: (origin, callback) => {
-        callback(null, origin || '*'); 
-    },    
-    credentials: true
+  origin: 'http://localhost:5173', 
+  credentials: true                
 }));
+
 
 app.use(helmet())
 app.use(express.json())
@@ -37,6 +40,15 @@ app.use(compression())
 
 app.use('/api/products', ProductsRouter)
 app.use('/api/users', UsersRouter)
+app.use('/api/cart', CartRouter);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 app.listen(process.env.PORT, () => {
     console.log('server has started')

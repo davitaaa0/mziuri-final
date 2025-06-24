@@ -34,13 +34,18 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = (req, res) => {
-    try {
-        res.clearCookie('token');
-        res.status(200).json({ data: 'User has logged out' });
-    } catch (err) {
+  try {
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Lax',
+    });
+    res.status(200).json({ data: 'User has logged out' });
+  } catch (err) {
         res.status(500).json({ err: err.message });
-    }
+  }
 };
+
 
 export const getToken = (req, res) => {
     try {

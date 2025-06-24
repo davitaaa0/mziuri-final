@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useLoader } from '../context/LoaderContext';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import RouteBanner from '../components/RouteBanner.jsx';
 
 function Contact() {
   const { setLoading } = useLoader();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos/1')
@@ -12,6 +14,7 @@ function Contact() {
       .then(() => {
         setLoading(false);
       });
+      document.title = 'Pronia - Contact';
   }, []);
 
   return (
@@ -20,9 +23,9 @@ function Contact() {
       <div className="contact">
         <div className="contact_wrap">
           <div className="contact_info">
-            <h2 className="contact_title">Contact Info:</h2>
+            <h2 className="contact_title">{t('ContactInfo')}:</h2>
             <p className="contact_desc">
-              Fill the form and our team will get back <br /> to you within 24 hours.
+              {t('FillForm')}.
             </p>
             <ul className="contact_list">
               <li>
@@ -32,7 +35,7 @@ function Contact() {
                 <i className="fi fi-rr-envelope"></i>info@example.com
               </li>
               <li>
-                <i className="fi fi-rr-marker"></i> <span>13, Your Address, Here</span>
+                <i className="fi fi-rr-marker"></i> <span>13, {t('YourAddress')}, {t('Here')}</span>
               </li>
             </ul>
           </div>
@@ -45,7 +48,7 @@ function Contact() {
                 <input
                   type="text"
                   name="con_firstName"
-                  placeholder="First Name*"
+                  placeholder={t('FirstName') + '*'}
                   className="input_field"
                 />
               </div>
@@ -53,7 +56,7 @@ function Contact() {
                 <input
                   type="text"
                   name="con_lastName"
-                  placeholder="Last Name*"
+                  placeholder={t('LastName') + '*'}
                   className="input_field"
                 />
               </div>
@@ -63,7 +66,7 @@ function Contact() {
                 <input
                   type="text"
                   name="con_phone"
-                  placeholder="Phone*"
+                  placeholder={t('Phone') + '*'}
                   className="input_field"
                 />
               </div>
@@ -71,7 +74,7 @@ function Contact() {
                 <input
                   type="text"
                   name="con_email"
-                  placeholder="Email*"
+                  placeholder={t('Email') + '*'}
                   className="input_field"
                 />
               </div>
@@ -79,7 +82,7 @@ function Contact() {
             <div className="form_field">
               <textarea
                 name="con_message"
-                placeholder="Message"
+                placeholder={t('Message')}
                 className="textarea_field"
               ></textarea>
             </div>
@@ -88,7 +91,7 @@ function Contact() {
                 type="submit"
                 className="btn"
               >
-                Post Comment
+                {t('PostComment')}
               </button>
             </div>
           </form>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLoader } from '../context/LoaderContext';
-import { Link } from 'react-router-dom';
-import Loading from '../components/Loading.jsx';
+import { useTranslation } from 'react-i18next';
 import RouteBanner from '../components/RouteBanner.jsx';
 import signature from '../assets/icons/signature.webp';
 import car from '../assets/icons/car.png';
@@ -9,8 +8,8 @@ import card from '../assets/icons/card.png';
 import service from '../assets/icons/service.png';
 
 function About() {
-  const [state, setState] = useState();
   const { setLoading } = useLoader();
+  const {t} = useTranslation()
   
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos/1')
@@ -18,6 +17,7 @@ function About() {
       .then(() => {
         setLoading(false);
       });
+      document.title = 'Pronia - About';
   }, []);
 
   return (
@@ -25,7 +25,7 @@ function About() {
       <RouteBanner />
       <div className="about">
         <div className="about_content">
-          <h2 className="about_title">Our <span>Story</span></h2>
+          <h2 className="about_title">{t('Our')} <span>{t('Story')}</span></h2>
           <p className="about_desc">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim <br /> veniam, quis nostrud
@@ -45,8 +45,8 @@ function About() {
               <img src={car} alt="car" />
             </div>
             <div className="text-box">
-              <h3>Free Shipping</h3>
-              <p>Capped at $319 per order</p>
+              <h3>{t('FreeShipping')}</h3>
+              <p>{t('ShippingDesc')}</p>
             </div>
           </div>
 
@@ -55,8 +55,8 @@ function About() {
               <img src={card} alt="card" />
             </div>
             <div className="text-box">
-              <h3>Safe Payment</h3>
-              <p>With our payment gateway</p>
+              <h3>{t('SafePayment')}</h3>
+              <p>{t('PaymentDesc')}</p>
             </div>
           </div>
 
@@ -65,8 +65,8 @@ function About() {
               <img src={service} alt="service" />
             </div>
             <div className="text-box">
-              <h3>Best Services</h3>
-              <p>Friendly & Supper Services</p>
+              <h3>{t('BestServices')}</h3>
+              <p>{t('ServicesDesc')}</p>
             </div>
           </div>
         </div>

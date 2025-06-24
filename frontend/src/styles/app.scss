@@ -8,13 +8,20 @@
 @use './routes/shop';
 @use './routes/contact';
 @use './routes/register';
-@use './routes/login';
+@use './routes/notfound';
  
 @use './components/carousel';
 @use './components/routebanner';
 @use './components/arrowdropdown';
 @use './components/dropdown';
+@use './components/product';
+@use './components/wave';
+@use './components/loading';
+@use './components/scrolltotop';
+@use './components/pagetransition';
+@use './components/searchmodal';
 
 @use './layouts/header';
+@use './layouts/dropheader';
 @use './layouts/main';
 @use './layouts/footer';

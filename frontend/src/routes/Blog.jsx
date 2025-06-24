@@ -11,6 +11,7 @@ function Blog() {
       .then(() => {
         setLoading(false);
       });
+      document.title = 'Pronia - Blog';
   }, []);
 
   return (

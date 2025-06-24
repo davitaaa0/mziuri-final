@@ -33,6 +33,10 @@
                 &:focus{
                     outline: none;
                 }
+                &[type="search"]::-webkit-search-cancel-button {
+                    display: none;
+                    -webkit-appearance: none;
+                }
             }
             button{
                 background-color: transparent;
@@ -41,6 +45,7 @@
                 font-size: 16px;
                 position: relative;
                 right: 2vw;
+                cursor: pointer;
             }
         }
         .filter-section{
@@ -86,8 +91,17 @@
                     border-bottom: 1px solid #cfcfcf;
                     margin-bottom: 3vh;
                     font-weight: 600;
+                    transition: $baseTransition;
+                    cursor: pointer;
                     &::marker{
                         color: transparent;
+                    }
+                    &:hover{
+                        color: $pronia-primary;
+                    }
+                    i{
+                        position: relative;
+                        top: 2px;
                     }
                 }
             }
@@ -137,6 +151,7 @@
             background-image: url(./images/backgrounds/advertisement.png);
             background-size: cover;
             background-position: center;
+            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -176,7 +191,6 @@
             flex-direction: row;
             align-items: flex-end;
             gap: 1vw;
-            margin-bottom: 5vh;
             .product-count{
                 width: 16vw;
                 height: 6vh;
@@ -190,7 +204,7 @@
                     color: $pronia-primary;
                 }
             }
-            button{
+            .placing{
                 width: 2.5vw;
                 height: 5.6vh;
                 border: 1px solid $border-color;
@@ -208,14 +222,51 @@
                     font-size: 16px;
                 }
             }
-            .sort{
+            .arrowdropdown_menu{
                 width: 10vw;
                 height: 5.6vh;
                 border: 1px solid $border-color;
                 border-radius: 5px;
+                white-space: nowrap;
                 display: flex;
-                justify-content: center;
                 align-items: center;
+                .selected{
+                    width: 100%;
+                    font-size: 14px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    color: $pronia-secondary;
+                    text-transform: none;
+                    cursor: pointer;
+                    button{
+                        cursor: pointer;
+                        font-size: 14px;
+                        border: 0;
+                        background-color: transparent;
+                        color: $pronia-secondary;
+                        font-weight: 500;
+                    }
+                }
+                .options{
+                    width: 100%;
+                    top: 6vh;
+                    .option{
+                        width: 100%;
+                        .sortBtn{    
+                            text-transform: none;
+                            color:  $pronia-secondary;
+                            padding: 10px;
+                            text-align: left;
+                            &:hover{
+                                background-color: rgb(240, 240, 240);
+                            }
+                            &.active{
+                                font-weight: 800;
+                            }
+                        }
+                    }   
+                }
             }
         }
         .product-container{
@@ -225,51 +276,6 @@
                 display: grid;
                 grid-template-columns: 35% 35% 35%;
                 grid-template-rows: 28% 28% 28%;
-                .product{
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1vh;
-                    .image-container{
-                        position: relative;
-                        width: 100%;
-                        height: auto;
-                        img{
-                            width: 100%;
-                            transition: $baseTransition;
-                        }
-                        .main-image{
-                            display: block;
-                        }
-                        .hover-image{
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            opacity: 0;
-                        }
-                        &:hover .hover-image{
-                            opacity: 1;
-                        }
-                        &:hover .main-image{
-                            opacity: 0;
-                        }
-                      }
-                    .name{
-                        font-weight: 500;
-                        font-size: 19px;
-                        text-decoration: none;
-                        color: black;
-                        transition: $baseTransition;
-                        &:hover{
-                            color: $pronia-primary;
-                        }
-                    }
-                    .price{
-                        color: $pronia-primary;
-                    }
-                    i{
-                        color: yellow;
-                    }
-                }
             }
         }
         .pagination{
