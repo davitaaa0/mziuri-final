@@ -1,8 +1,14 @@
 import axios from 'axios';
 
+const BASE_URL =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:3003'
+    : 'https://davitaspronia.onrender.com';
+
+
 export const getProducts = async () => {
   try {
-    const response = await axios.get(`http://localhost:3003/api/products`, {
+    const response = await axios.get(`${BASE_URL}/api/products`, {
       withCredentials: true,
     });
     return response.data;
@@ -13,7 +19,7 @@ export const getProducts = async () => {
 
 export const loginUser = async (email, password) => {
   const response = await axios.post(
-    'http://localhost:3003/api/users/login',
+    `${BASE_URL}/api/users/login`,
     { email, password },
     {
       headers: { 'Content-Type': 'application/json' },
@@ -24,20 +30,20 @@ export const loginUser = async (email, password) => {
 };
 
 export const logoutUser = async () => {
-  const response = await axios.post('http://localhost:3003/api/users/logout', null, {
+  const response = await axios.post(`${BASE_URL}/api/users/logout`, null, {
     withCredentials: true,
   });
   return response.data;
 };
 
 export const getToken = () => {
-  return axios.post(`http://localhost:3003/api/users/get-token`, null, {
+  return axios.post(`${BASE_URL}/api/users/get-token`, null, {
     withCredentials: true,
   });
 };
 
 export const getUser = async (token) => {
-  const response = await axios.get(`http://localhost:3003/api/users/get-user`, {
+  const response = await axios.get(`${BASE_URL}/api/users/get-user`, {
     headers: { Authorization: token },
   });
   return response.data;
@@ -46,7 +52,7 @@ export const getUser = async (token) => {
 export const registerUser = async (firstname, lastname, email, password) => {
   try {
     const response = await axios.post(
-      'http://localhost:3003/api/users/register',
+      `${BASE_URL}/api/users/register`,
       JSON.stringify({ firstname, lastname, email, password }),
       {
         headers: { 'Content-Type': 'application/json' },
@@ -55,27 +61,27 @@ export const registerUser = async (firstname, lastname, email, password) => {
     );
     return response.data;
   } catch (err) {
-    alert(err.response.data.err);
+    alert(err?.response?.data?.err || 'An error occurred');
     console.error('Error registering user:', err);
     throw err;
   }
 };
 
 export const forgotPasswordUser = (data) => {
-  return axios.put(`http://localhost:3003/api/users/forgot-password`, data, {
+  return axios.put(`${BASE_URL}/api/users/forgot-password`, data, {
     withCredentials: true,
   });
 }
 
 export const resetPasswordUser = (data, token) => {
-  return axios.put(`http://localhost:3003/api/users/reset-password`, data, {
+  return axios.put(`${BASE_URL}/api/users/reset-password`, data, {
     headers: { Authorization: token },
     withCredentials: true,
   });
 }
 
 export const deleteCart = async () => {
-  const res = await fetch('http://localhost:3003/api/cart', {
+  const res = await fetch(`${BASE_URL}/api/cart`, {
     method: 'DELETE',
     credentials: 'include', 
     headers: {
@@ -84,7 +90,6 @@ export const deleteCart = async () => {
   });
 
   const result = await res.json();
-  console.log('[deleteCart] Response:', result);
 
   if (!res.ok) {
     throw new Error(result.message || 'Failed to delete cart');
@@ -94,7 +99,7 @@ export const deleteCart = async () => {
 };
 
 export const saveCart = async (items) => {
-  const res = await fetch('http://localhost:3003/api/cart', {
+  const res = await fetch(`${BASE_URL}/api/cart`, {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },

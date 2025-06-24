@@ -46,12 +46,19 @@ app.use(helmet.contentSecurityPolicy({
         "https://cdn-uicons.flaticon.com"
     ],
     fontSrc: [
-        "'self'",
-        "https://fonts.gstatic.com",
-        "https://cdn-uicons.flaticon.com"
+      "'self'",
+      "data:", 
+      "https://fonts.gstatic.com",
+      "https://cdn-uicons.flaticon.com",
+      "https://cdnjs.cloudflare.com"
     ],
     scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-    connectSrc: ["'self'", process.env.FRONTEND_URL, "http://localhost:3003"]
+    connectSrc: [
+      "'self'",  
+      "http://localhost:3003",
+      "https://davitaspronia.onrender.com",
+      process.env.FRONTEND_URL
+    ]
   }
 }))
 
