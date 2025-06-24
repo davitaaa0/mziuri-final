@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import { CartContext } from './CartContext';
+
+const BASE_URL = 'https://davitaspronia.onrender.com'; 
 
 const UserContext = createContext({
   userData: null,
@@ -29,7 +30,7 @@ const UserProvider = ({ children }) => {
 
 const syncCartAfterLogin = async (token, setCartItems) => {
   try {
-    const res = await fetch('http://localhost:3000/api/cart', {
+    const res = await fetch(`${BASE_URL}/api/cart`, {
       headers: { Authorization: `Bearer ${token}` },
       credentials: 'include',
     });
@@ -42,7 +43,7 @@ const syncCartAfterLogin = async (token, setCartItems) => {
     setCartItems(merged);
     localStorage.setItem('cart', JSON.stringify(merged));
 
-    await fetch('http://localhost:3000/api/cart', {
+    await fetch(`${BASE_URL}/api/cart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://davitaspronia.onrender.com'; // Use your Render backend
+const BASE_URL = 'https://davitaspronia.onrender.com'; 
 
-// Products
 export const getProducts = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/api/products`, {
@@ -15,7 +14,6 @@ export const getProducts = async () => {
   }
 };
 
-// Auth
 export const loginUser = async (email, password) => {
   try {
     const response = await axios.post(
@@ -82,11 +80,13 @@ export const registerUser = async (firstname, lastname, email, password) => {
     );
     return response.data;
   } catch (err) {
-    alert(err?.response?.data?.err || 'Registration failed');
+    const message = err?.response?.data?.err || 'Registration failed';
+    alert(message);
     console.error('Error registering user:', err);
     throw err;
   }
 };
+
 
 export const forgotPasswordUser = async (data) => {
   try {
@@ -113,7 +113,6 @@ export const resetPasswordUser = async (data, token) => {
   }
 };
 
-// Cart
 export const deleteCart = async () => {
   try {
     const res = await fetch(`${BASE_URL}/api/cart`, {
