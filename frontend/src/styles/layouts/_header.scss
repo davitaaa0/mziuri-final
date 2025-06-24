@@ -143,23 +143,32 @@
                 color: white;
             }
         }
-        .dropdowns{
-            max-width: 50%;
+        .dropdowns {
+            max-width: 80%;
             display: flex;
             flex-direction: row;
             color: white;
-            gap: 10%;
-            .options{
-                width: 80%;
-                .option{
+            .arrowdropdown_menu{
+                .options{
                     width: 100%;
-                    button{
-                        width: 100%;   
-                        padding: 5px 10px 5px 10px;
+                    .option{
+                        width: 100%;
                     }
                 }
             }
-            i{
+            .dropdown_menu{
+                .options{
+                    width: 150%;
+                    .option{
+                        width: 100%;
+                        a{
+                            width: 100%;  
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+            i {
                 cursor: pointer;
             }
         }

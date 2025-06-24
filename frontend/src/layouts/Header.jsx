@@ -163,11 +163,10 @@ const Header = () => {
                 onToggle={() => handleToggle(4)}
                 storageKey="currencyDropdownIndex"
               />
-              <ArrowDropdown
+              <Dropdown
                 options={profile}
                 isOpen={openDropdown === 5}
                 onToggle={() => handleToggle(5)}
-                storageKey="profileDropdownIndex"
               />
               <i className="fi fi-rr-heart"></i>
             </div>

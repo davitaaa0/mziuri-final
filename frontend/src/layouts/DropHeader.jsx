@@ -111,7 +111,7 @@ function DropHeader({ isVisible }) {
                                 onToggle={() => handleToggle(4)}
                                 storageKey="currencyDropdownIndex"
                             />
-                            <ArrowDropdown
+                            <Dropdown
                                 options={profile}
                                 isOpen={openDropdown === 5}
                                 onToggle={() => handleToggle(5)}
