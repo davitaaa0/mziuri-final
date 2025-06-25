@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3003'; 
+const BASE_URL = ''; 
 
 export const getProducts = async () => {
   try {
@@ -130,5 +130,4 @@ export const saveCart = async (items, token) => {
     withCredentials: true,
     
   });
-  console.log('Sending saveCart request:', { items, token });
 };
