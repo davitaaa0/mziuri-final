@@ -3,13 +3,16 @@ import { validateEmail, validatePassword } from '../utils/validations.jsx';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useLoader } from '../context/LoaderContext';
-import { UserContext } from '../context/UserContext';
+import { UserContext, syncCartAfterLogin } from '../context/UserContext';
 import { loginUser } from '../api/api';
+import { CartContext } from '../context/CartContext';
 import RouteBanner from '../components/RouteBanner.jsx';
 
 function Login() {
   const { setLoading } = useLoader();
   const { setUserData } = useContext(UserContext);
+  const { setCartItems, setCartInitialized } = useContext(CartContext);
+  
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -71,9 +74,13 @@ function Login() {
 
       if (res && res.data) {
         setUserData(res.data);
+
+        await syncCartAfterLogin(res.data.token, setCartItems, setCartInitialized);
+
         if (form.remember) {
           localStorage.setItem('userData', JSON.stringify(res.data));
         }
+
         navigate('/');
       } else if (res.err) {
         alert(res.err);
@@ -83,7 +90,7 @@ function Login() {
     } catch (err) {
       alert(err.response?.data?.message || err.message || 'Your password is incorrect');
     }
-};
+  };
 
 
   return (

@@ -34,16 +34,16 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = (req, res) => {
-  try {
-    res.clearCookie('token', {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'Lax',
-    });
-    res.status(200).json({ data: 'User has logged out' });
-  } catch (err) {
-        res.status(500).json({ err: err.message });
-  }
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'Lax',
+        });
+        res.status(200).json({ data: 'User has logged out' });
+    } catch (err) {
+            res.status(500).json({ err: err.message });
+    }
 };
 
 
@@ -102,8 +102,6 @@ export const registerUser = async (req, res) => {
         });
 
         await newUser.save()
-
-        // Users.create()
 
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
         res.cookie('token', token, { httpOnly: true, secure: false, maxAge: 24 * 60 * 60 * 1000 });

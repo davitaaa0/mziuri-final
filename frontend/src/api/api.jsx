@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://davitaspronia.onrender.com'; 
+const BASE_URL = 'http://localhost:3003'; 
 
 export const getProducts = async () => {
   try {
@@ -114,42 +114,33 @@ export const resetPasswordUser = async (data, token) => {
 };
 
 export const deleteCart = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/api/cart`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  const res = await fetch('http://localhost:3003/api/cart', {
+    method: 'DELETE',
+    credentials: 'include', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
-    const result = await res.json();
+  const result = await res.json();
+  console.log('[deleteCart] Response:', result);
 
-    if (!res.ok) {
-      throw new Error(result.message || 'Failed to delete cart');
-    }
-
-    return result;
-  } catch (err) {
-    console.error('Error deleting cart:', err);
-    throw err;
+  if (!res.ok) {
+    throw new Error(result.message || 'Failed to delete cart');
   }
+
+  return result;
 };
 
 export const saveCart = async (items) => {
-  try {
-    const res = await fetch(`${BASE_URL}/cart`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items }),
-    });
+  const res = await fetch('http://localhost:3003/api/cart', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items })
+  });
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Failed to save cart');
-    return data;
-  } catch (err) {
-    console.error('Error saving cart:', err);
-    throw err;
-  }
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Failed to save cart');
+  return data;
 };

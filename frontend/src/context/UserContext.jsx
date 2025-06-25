@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect } from 'react';
 
 const UserContext = createContext({
   userData: null,
@@ -26,14 +26,14 @@ const UserProvider = ({ children }) => {
   );
 };
 
-const syncCartAfterLogin = async (token, setCartItems) => {
+const syncCartAfterLogin = async (token, setCartItems, setCartInitialized) => {
   try {
-    const res = await fetch(`localhost:3000/api/cart`, {
+    const res = await fetch('http://localhost:3000/api/cart', {
       headers: { Authorization: `Bearer ${token}` },
       credentials: 'include',
     });
-    const backendItems = await res.json();
 
+    const backendItems = await res.json();
     const localItems = JSON.parse(localStorage.getItem('cart')) || [];
 
     const merged = mergeCarts(localItems, backendItems);
@@ -41,7 +41,7 @@ const syncCartAfterLogin = async (token, setCartItems) => {
     setCartItems(merged);
     localStorage.setItem('cart', JSON.stringify(merged));
 
-    await fetch(`localhost:3000/api/cart`, {
+    await fetch('http://localhost:3000/api/cart', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,8 +50,11 @@ const syncCartAfterLogin = async (token, setCartItems) => {
       credentials: 'include',
       body: JSON.stringify({ items: merged }),
     });
+
+    setCartInitialized(true);
   } catch (err) {
     console.error('Cart sync error:', err);
+    setCartInitialized(true);
   }
 };
 
@@ -69,4 +72,3 @@ const mergeCarts = (local, backend) => {
 };
 
 export { UserContext, UserProvider, syncCartAfterLogin, mergeCarts };
-

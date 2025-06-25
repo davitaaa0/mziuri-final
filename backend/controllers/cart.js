@@ -18,7 +18,7 @@ export const saveCart = async (req, res) => {
       { items },
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
-    console.log("Incoming saveCart user:", req.user);
+
     res.json({ message: 'Cart saved', cart: updatedCart });
   } catch (err) {
     console.error('saveCart error:', err);
@@ -38,4 +38,3 @@ export const clearCart = async (req, res) => {
     res.status(500).json({ error: 'Failed to clear cart' });
   }
 };
-

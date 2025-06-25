@@ -1,10 +1,12 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext, useRef } from 'react'
 import { UserContext } from './UserContext';
 import { saveCart, deleteCart } from '../api/api';
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const [cartInitialized, setCartInitialized] = useState(false);
+  const skipInitialSync = useRef(true);
   const { userData } = useContext(UserContext); 
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem('cart');
@@ -12,15 +14,20 @@ export function CartProvider({ children }) {
   });
 
   useEffect(() => {
-  localStorage.setItem('cart', JSON.stringify(cartItems));
+    localStorage.setItem('cart', JSON.stringify(cartItems));
 
-  if (userData) {
-    saveCart(cartItems.map(item => ({
-      productId: item.productId?._id || item._id,
-      quantity: item.quantity
-    })));
-  }
-}, [cartItems, userData]);
+    if (userData && cartInitialized && !skipInitialSync.current) {
+      saveCart(cartItems.map(item => ({
+        productId: item.productId?._id || item._id,
+        quantity: item.quantity,
+      })));
+    }
+
+    if (skipInitialSync.current) {
+      skipInitialSync.current = false;
+    }
+  }, [cartItems, userData, cartInitialized]);
+
 
   const addToCart = (product) => {
   setCartItems((prevItems) => {
@@ -77,7 +84,7 @@ export function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, setCartInitialized, addToCart, removeFromCart, updateQuantity, clearCart }}>
       {children}
     </CartContext.Provider>
   );
