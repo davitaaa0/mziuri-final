@@ -14,9 +14,10 @@ function DropHeader({ isVisible }) {
     const [openDropdown, setOpenDropdown] = useState(null);
     const { userData, setUserData } = useContext(UserContext);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { clearCart } = useContext(CartContext);
+    const { cartItems, clearCart } = useContext(CartContext);
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const cartQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     const handleChangeCurrency = (curr) => {
         setCurrency(curr);
@@ -154,7 +155,10 @@ function DropHeader({ isVisible }) {
                         />
                         <i className="fi fi-rr-heart"></i>
                     </div>
-                    <Link to={'/cart'}><i className="fi fi-rr-shopping-cart"></i></Link>
+                    <Link to="/cart" className="cart-icon">
+                        <i className="fi fi-rr-shopping-cart"></i>
+                        {cartQuantity > 0 && <span className="cart-count">{cartQuantity}</span>}
+                    </Link>
                     <button className="mobile-menu-toggle" onClick={() => setIsMobileMenuOpen(prev => !prev)}>
                         <i className="fi fi-rr-menu-burger"></i>
                     </button>

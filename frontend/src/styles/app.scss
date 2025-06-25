@@ -7,8 +7,11 @@
 @use './routes/about';
 @use './routes/shop';
 @use './routes/contact';
+@use './routes/login';
 @use './routes/register';
 @use './routes/notfound';
+@use './routes/cart';
+@use './routes/myaccount';
  
 @use './components/carousel';
 @use './components/routebanner';

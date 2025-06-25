@@ -138,7 +138,7 @@ export const deleteCart = async () => {
 
 export const saveCart = async (items) => {
   try {
-    const res = await fetch(`${BASE_URL}/api/cart`, {
+    const res = await fetch(`${BASE_URL}/cart`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },

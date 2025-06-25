@@ -6,13 +6,15 @@ const CurrencyContext = createContext({
 
 export const useCurrency = () => useContext(CurrencyContext);
 
-const CurrencyProvider = ({ children }) => {
+export const CurrencyProvider = ({ children }) => {
   const [currency, setCurrency] = useState(() => {
-    return localStorage.getItem('currency');
+    return localStorage.getItem('currency') || 'usd';
   });
 
   useEffect(() => {
-    localStorage.setItem('currency', currency);
+    if (currency) {
+      localStorage.setItem('currency', currency);
+    }
   }, [currency]);
 
   return (
@@ -21,5 +23,3 @@ const CurrencyProvider = ({ children }) => {
     </CurrencyContext.Provider>
   );
 };
-
-export { CurrencyContext, CurrencyProvider };

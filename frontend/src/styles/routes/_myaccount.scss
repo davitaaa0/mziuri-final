@@ -1,0 +1,109 @@
+@use '../abstracts/variables' as *;
+
+.account-section {
+    padding: 60px 0;
+    .account-container {
+        display: flex;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        .account-sidebar {  
+            width: 300px;
+            flex: 1;
+            max-width: 300px;
+            background-color: #2C2C2C;
+            ul {
+                width: 100%;
+                height: 30vh;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                li {
+                    display: flex;
+                    align-items: center;
+                    width: 100%;    
+                    height: 6vh;
+                    padding-left: 20px;
+                    cursor: pointer;
+                    font-weight: 900;
+                    text-transform: uppercase;
+                    &:hover a,
+                    &:hover button{
+                        color: $pronia-primary;
+                    }
+                    &.active {
+                        color: white;
+                        background-color: $pronia-primary;
+                    }
+                }
+            }
+            a,
+            button {
+                text-transform: uppercase;
+                color: white;
+                text-decoration: none;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 900;
+                transition: $baseTransition;
+                &:hover{
+                    color: $pronia-primary;
+                }
+            }
+        }
+        .account-content {  
+            flex: 3;
+            border: 1px solid $border-color;
+            padding: 30px;
+            background: #fff;
+            color: $pronia-secondary;
+            p{
+                font-size: 16px;
+            }
+            .logout-button {
+                font-size: 16px;
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                color: $pronia-secondary;
+                :hover {
+                    color: $pronia-primary;
+                }
+            }
+            .desc{
+                margin-top: 20px;
+            }
+        }
+    }
+}
+
+.myaccount{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40vh;
+    .nologin{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $pronia-secondary;
+        width: 50%;
+        height: 20%;
+        font-size: 24px;
+        border: 1px solid $border-color;
+        a{
+            text-decoration: none;
+            color: $pronia-primary;
+            margin-right: 5px;
+            margin-left: 5px;
+            transition: $baseTransition;
+            &:nth-child(2){
+                margin-right: 0;
+            }
+        }        
+    }
+}

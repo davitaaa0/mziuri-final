@@ -12,6 +12,8 @@ function Product({ product }) {
   const { i18n } = useTranslation();
   const { currency } = useCurrency();
   const { addToCart } = useContext(CartContext);
+  const priceKey = currency.toLowerCase(); 
+  const priceValue = product.price?.[priceKey] ?? 'N/A';
   const currentLang = i18n.language || 'en';
 
   return (
@@ -50,7 +52,9 @@ function Product({ product }) {
       >
         {product.title?.[currentLang] || product.title?.en || '❌'}
       </Link>
-      <h3 className="price">{convertToCurrencySymbol(currency)}{product.price[currency]}</h3>
+      <h3 className="price">
+        {convertToCurrencySymbol(currency)}{priceValue}
+      </h3>
       <Rating rating={product.rating} />
     </div>
   );

@@ -36,7 +36,13 @@ function MyAccount() {
       <div>
         <RouteBanner />
         <div className="myaccount">
-          <p>You are not logged in. Please <Link href="/login">{t("Login")}</Link> or <Link href="/register">{t("Register")}</Link>.</p>
+          <p className='nologin'>
+            You are not logged in. Please 
+            <Link to="/login">{t("Login")}</Link> 
+            or 
+            <Link to="/register">{t("Register")}</Link>
+            .
+          </p>
         </div>
       </div>
     );
@@ -45,17 +51,39 @@ function MyAccount() {
   return (
     <div>
       <RouteBanner />
-      <div className="myaccount">
-        <h2>{t("My Account")}</h2>
-        <div className="account_info">
-          <p><strong>First Name:</strong> {userData.firstname}</p>
-          <p><strong>Last Name:</strong> {userData.lastname}</p>
-          <p><strong>Email:</strong> {userData.email}</p>
+      <section className="account-section">
+        <div className="account-container">
+          <div className="account-sidebar">
+            <ul>
+              <li className="active">{t("Dashboard")}</li>
+              <li><Link>{t("Orders")}</Link></li>
+              <li><Link>{t("Adresses")}</Link></li>
+              <li><Link>{t("Account Details")}</Link></li>
+              <li><button onClick={handleLogout}>{t("Logout")}</button></li>
+            </ul>
+          </div>
+
+          <div className="account-content">
+            {!userData ? (
+              <div className="not-logged-in">
+                <p>
+                  {t("You are not logged in.")}{" "}
+                  <Link to="/login">{t("Login")}</Link> {t("or")}{" "}
+                  <Link to="/register">{t("Register")}</Link>.
+                </p>
+              </div>
+            ) : (
+              <div className="account-info">
+                <p>
+                  Hello <b>{userData.firstname} </b>
+                  {' ('}not {userData.firstname}? <button className='logout-button' onClick={handleLogout}>Sign Out</button>{')'}
+                </p>
+                <p className='desc'>From your account dashboard you can view your recent orders, manage your shipping and billing addresses and edit your password and account details.</p>
+              </div>
+            )}
+          </div>
         </div>
-        <button className="logout_button" onClick={handleLogout}>
-          {t("Logout")}
-        </button>
-      </div>
+      </section>
     </div>
   )
 }

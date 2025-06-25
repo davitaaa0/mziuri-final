@@ -29,8 +29,8 @@ app.use(limiter)
 app.use(cors({
   origin: [
     'http://localhost:3003',   
-    'http://localhost:5173',       
-    'https://davitaspronia.onrender.com'
+    'http://localhost:5173',
+    'https://davitaspronia.onrender.com',      
   ],
   credentials: true
 }))
@@ -42,6 +42,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
+        frameSrc: ["'self'", "https://www.google.com"],
         imgSrc: ["'self'", "data:", "http://localhost:3003", "https://htmldemo.net"],
         styleSrc: [
           "'self'",

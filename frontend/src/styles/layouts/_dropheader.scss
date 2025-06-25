@@ -82,6 +82,20 @@
             display: flex;
             gap: 20px;
         }
+        .cart-icon {
+            position: relative;
+            .cart-count {
+                position: absolute;
+                top: -8px;
+                right: -10px;
+                background-color: $pronia-primary;
+                color: white;
+                font-size: 12px;
+                padding: 2px 6px;
+                border-radius: 999px;
+                font-weight: bold;
+            }
+        }
     }
 }
 
