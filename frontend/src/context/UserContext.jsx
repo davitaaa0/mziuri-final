@@ -26,55 +26,5 @@ const UserProvider = ({ children }) => {
   );
 };
 
-const syncCartAfterLogin = async (token, setCartItems) => {
-  try {
-    const res = await fetch('http://localhost:3003/api/cart', {
-      headers: { Authorization: `Bearer ${token}` },
-      credentials: 'include',
-    });
+export { UserContext, UserProvider };
 
-    const data = await res.json();
-    console.log('Fetched cart data:', data);
-    const backendItems = Array.isArray(data) ? data : data.items || [];
-
-    if (!Array.isArray(backendItems)) {
-      console.error('Backend cart is not an array:', backendItems);
-      return;
-    }
-
-    const localItems = JSON.parse(localStorage.getItem('cart')) || [];
-
-    const merged = mergeCarts(localItems, backendItems);
-
-    setCartItems(merged);
-    localStorage.setItem('cart', JSON.stringify(merged));
-
-    await fetch('http://localhost:3003/api/cart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      credentials: 'include',
-      body: JSON.stringify({ items: merged }),
-    });
-
-  } catch (err) {
-    console.error('Cart sync error:', err);
-  }
-};
-
-const mergeCarts = (local, backend) => {
-  const map = new Map();
-  [...local, ...backend].forEach((item) => {
-    const id = item.productId?._id || item.productId || item._id;
-    if (!map.has(id)) {
-      map.set(id, { ...item });
-    } else {
-      map.get(id).quantity += item.quantity;
-    }
-  });
-  return Array.from(map.values());
-};
-
-export { UserContext, UserProvider, syncCartAfterLogin, mergeCarts };

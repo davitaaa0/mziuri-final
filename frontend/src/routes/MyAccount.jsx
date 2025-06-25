@@ -26,6 +26,7 @@ function MyAccount() {
       await logoutUser();
       setUserData(null);
       navigate('/login');
+      console.log('userData:', userData);
     } catch (err) {
       console.error('Logout failed', err);
     }

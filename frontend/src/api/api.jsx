@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = ''; 
+const BASE_URL = 'http://localhost:3003'; 
 
 export const getProducts = async () => {
   try {
@@ -113,21 +113,22 @@ export const resetPasswordUser = async (data, token) => {
   }
 };
 
-export const deleteCart = async (token) => {
-  console.log('Sending deleteCart request with token:', token); 
-
-  return axios.delete(`${BASE_URL}/api/cart`, {
+export const fetchCart = async (token) => {
+  const res = await axios.get(`${BASE_URL}/api/cart`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials: true,
   });
+  return res.data;
 };
 
 export const saveCart = async (items, token) => {
-  return axios.post(`${BASE_URL}/api/cart`, { items }, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    withCredentials: true,
-    
-  });
+  await axios.post(
+    `${BASE_URL}/api/cart`,
+    { items },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    }
+  );
 };
+

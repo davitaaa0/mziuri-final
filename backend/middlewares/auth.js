@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import User from '../models/users.js';
 import dotenv from 'dotenv';  
 
 dotenv.config()
@@ -24,4 +25,3 @@ export const auth = async (req, res, next) => {
     res.status(401).json({ error: 'Invalid token' });
   }
 };
-

@@ -5,38 +5,37 @@ import mailSender from '../utils/mailSender.js';
 
 
 export const loginUser = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const isEmail = email.includes('@');
+  try {
+    const { email, password } = req.body;
 
-        let user;
-        if (isEmail) {
-            user = await Users.findOne({ email: email });
-        }
- 
-        if (!user) {
-            return res.status(404).json({ err: 'Invalid email or password' });
-        }
-
-        const isPasswordValid = await bcrypt.compare(password + process.env.BCRYPT_PEPPER, user.password)
-
-        if(!isPasswordValid) {
-            return res.json({ err: 'Invalid email or password' });
-        }
-
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: false, 
-            sameSite: 'None', 
-            maxAge: 24 * 60 * 60 * 1000,
-        });
-
-        res.status(200).json({ data: user });
-    } catch (err) {
-        res.status(500).json({ err: err.message });
+    const user = await Users.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ err: 'Invalid email or password' });
     }
+
+    const isPasswordValid = await bcrypt.compare(password + process.env.BCRYPT_PEPPER, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ err: 'Invalid email or password' });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'None',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    const userSafe = user.toObject();
+    delete userSafe.password;
+
+    res.status(200).json({ data: { user: userSafe, token } });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
 };
+
 
 export const logoutUser = (req, res) => {
     try {

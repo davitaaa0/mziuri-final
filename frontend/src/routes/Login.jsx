@@ -1,18 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { validateEmail, validatePassword } from '../utils/validations.jsx';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useLoader } from '../context/LoaderContext';
-import { UserContext, syncCartAfterLogin } from '../context/UserContext';
+import { UserContext } from '../context/UserContext';
 import { loginUser } from '../api/api';
-import { CartContext } from '../context/CartContext';
 import RouteBanner from '../components/RouteBanner.jsx';
 
 function Login() {
   const { setLoading } = useLoader();
   const { setUserData } = useContext(UserContext);
-  const { setCartItems } = useContext(CartContext);
-  
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -25,77 +21,56 @@ function Login() {
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then((response) => response.json())
-      .then(() => {
-        setLoading(false);
-      });
-      document.title = 'Pronia - Login';
+      .then(() => setLoading(false));
+    document.title = 'Pronia - Login';
   }, []);
 
   const validate = () => {
     const newErrors = {};
-
     const emailError = validateEmail(form.email);
-    if (emailError) newErrors.email = emailError;
-
     const passwordError = validatePassword(form.password);
+    if (emailError) newErrors.email = emailError;
     if (passwordError) newErrors.password = passwordError;
-
     return newErrors;
   };
 
   const handleFormChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === 'checkbox' ? checked : value;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: newValue,
-    }));
-
-    setErrors((prev) => ({
-      ...prev,
-      [name]: '',
-    }));
+    setForm((prev) => ({ ...prev, [name]: newValue }));
+    setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
-
   const handleLoginFormSubmit = async (e) => {
-  e.preventDefault();
-  setSubmitted(true);
+    e.preventDefault();
+    setSubmitted(true);
 
-  const validationErrors = validate();
-  if (Object.keys(validationErrors).length > 0) {
-    setErrors(validationErrors);
-    return;
-  }
-
-  try {
-    const res = await loginUser(form.email, form.password);
-
-    if (res && res.data) {
-      const { token, user } = res.data;
-
-      const userDataWithToken = { ...user, token };
-
-      setUserData(userDataWithToken); 
-
-      await syncCartAfterLogin(token, setCartItems);
-
-      if (form.remember) {
-        localStorage.setItem('userData', JSON.stringify(userDataWithToken));
-      }
-
-      navigate('/');
-    } else if (res.err) {
-      alert(res.err);
-    } else {
-      alert('Unexpected response from server');
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
-  } catch (err) {
-    alert(err.response?.data?.message || err.message || 'Your password is incorrect');
-  }
-};
+    try {
+      const res = await loginUser(form.email, form.password);
+      if (res && res.data && res.data.user && res.data.token) {
+        const { user, token } = res.data;
+        const userDataWithToken = { ...user, token };
 
+        setUserData(userDataWithToken);
+
+        if (form.remember) {
+          localStorage.setItem('userData', JSON.stringify(userDataWithToken));
+        }
+
+        navigate('/');
+      } else {
+        alert('Unexpected response from server');
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || err.message || 'Your password is incorrect');
+    }
+
+  };
 
   return (
     <div>
@@ -104,6 +79,7 @@ function Login() {
         <div className="login_form">
           <form onSubmit={handleLoginFormSubmit}>
             <h4 className="login_title">Login</h4>
+
             <div className="login_input">
               <div>
                 <label>Email Address*</label>
@@ -117,6 +93,7 @@ function Login() {
                 {submitted && errors.email && <small className="error">{errors.email}</small>}
               </div>
             </div>
+
             <div className="login_input">
               <div>
                 <label>Password</label>
@@ -130,10 +107,8 @@ function Login() {
                 {submitted && errors.password && <small className="error">{errors.password}</small>}
               </div>
             </div>
-            <div
-              className="login_input"
-              style={{ display: 'flex', gap: '40%' }}
-            >
+
+            <div className="login_input" style={{ display: 'flex', gap: '40%' }}>
               <div className="checkbox">
                 <input
                   type="checkbox"
@@ -148,8 +123,9 @@ function Login() {
                 <Link to="/forgot-password">Forgotten Password?</Link>
               </div>
             </div>
+
             <div className="login_button">
-              <input type="submit"/>
+              <input type="submit" value="Login" />
             </div>
           </form>
         </div>

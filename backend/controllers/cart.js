@@ -1,47 +1,45 @@
-import Cart from '../models/cart.js'
+import Cart from '../models/cart.js';
 
 export const getCart = async (req, res) => {
   try {
-    const cart = await Cart.findOne({ user: req.user.id }).populate('items.productId');
-    return res.json(cart?.items || []);
-  } catch (err) {
-    console.error('Error in getCart:', err);
-    return res.status(500).json({ error: 'Failed to get cart' });
+    const userId = req.user.id;
+    const cart = await Cart.findOne({ userId });
+    res.json(cart || { items: [] });
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+    res.status(500).json({ error: 'Failed to fetch cart' });
   }
 };
 
 export const saveCart = async (req, res) => {
   try {
-    const userId = req.user._id; 
+    const userId = req.user.id;
     const { items } = req.body;
 
     if (!Array.isArray(items)) {
-      return res.status(400).json({ error: 'Items must be an array' });
+      return res.status(400).json({ error: 'Invalid items array' });
     }
 
-    let cart = await Cart.findOne({ user: userId });
+    const updatedCart = await Cart.findOneAndUpdate(
+      { userId },
+      { items },
+      { new: true, upsert: true }
+    );
 
-    if (cart) {
-      cart.items = items;
-      await cart.save();
-    } else {
-      cart = new Cart({ user: userId, items });
-      await cart.save();
-    }
-
-    res.json(cart);
-  } catch (err) {
-    console.error('Error saving cart:', err);
+    res.json(updatedCart);
+  } catch (error) {
+    console.error('Error saving cart:', error);
     res.status(500).json({ error: 'Failed to save cart' });
   }
 };
 
-export const deleteCart = async (req, res) => {
+export const clearCart = async (req, res) => {
   try {
-    await Cart.findOneAndDelete({ user: req.user.id });
+    const userId = req.user.id;
+    await Cart.deleteOne({ userId });
     res.json({ message: 'Cart cleared' });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to delete cart' });
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+    res.status(500).json({ error: 'Failed to clear cart' });
   }
 };
-
