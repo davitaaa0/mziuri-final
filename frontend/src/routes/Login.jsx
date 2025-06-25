@@ -11,7 +11,7 @@ import RouteBanner from '../components/RouteBanner.jsx';
 function Login() {
   const { setLoading } = useLoader();
   const { setUserData } = useContext(UserContext);
-  const { setCartItems, setCartInitialized } = useContext(CartContext);
+  const { setCartItems } = useContext(CartContext);
   
   const [form, setForm] = useState({
     email: '',
@@ -60,37 +60,41 @@ function Login() {
 
 
   const handleLoginFormSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitted(true);
+  e.preventDefault();
+  setSubmitted(true);
 
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+  const validationErrors = validate();
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    return;
+  }
 
-    try {
-      const res = await loginUser(form.email, form.password);
+  try {
+    const res = await loginUser(form.email, form.password);
 
-      if (res && res.data) {
-        setUserData(res.data);
+    if (res && res.data) {
+      const { token, user } = res.data;
 
-        await syncCartAfterLogin(res.data.token, setCartItems, setCartInitialized);
+      const userDataWithToken = { ...user, token };
 
-        if (form.remember) {
-          localStorage.setItem('userData', JSON.stringify(res.data));
-        }
+      setUserData(userDataWithToken); 
 
-        navigate('/');
-      } else if (res.err) {
-        alert(res.err);
-      } else {
-        alert('Unexpected response from server');
+      await syncCartAfterLogin(token, setCartItems);
+
+      if (form.remember) {
+        localStorage.setItem('userData', JSON.stringify(userDataWithToken));
       }
-    } catch (err) {
-      alert(err.response?.data?.message || err.message || 'Your password is incorrect');
+
+      navigate('/');
+    } else if (res.err) {
+      alert(res.err);
+    } else {
+      alert('Unexpected response from server');
     }
-  };
+  } catch (err) {
+    alert(err.response?.data?.message || err.message || 'Your password is incorrect');
+  }
+};
 
 
   return (

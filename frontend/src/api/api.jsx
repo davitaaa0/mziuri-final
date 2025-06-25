@@ -46,10 +46,10 @@ export const logoutUser = async () => {
 
 export const getToken = async () => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/users/get-token`, null, {
+    const res = await axios.post(`${BASE_URL}/api/users/get-token`, null, {
       withCredentials: true,
     });
-    return response.data;
+    return res.data;
   } catch (err) {
     console.error('Error getting token:', err);
     throw err;
@@ -113,34 +113,22 @@ export const resetPasswordUser = async (data, token) => {
   }
 };
 
-export const deleteCart = async () => {
-  const res = await fetch('http://localhost:3003/api/cart', {
-    method: 'DELETE',
-    credentials: 'include', 
-    headers: {
-      'Content-Type': 'application/json',
-    },
+export const deleteCart = async (token) => {
+  console.log('Sending deleteCart request with token:', token); 
+
+  return axios.delete(`${BASE_URL}/api/cart`, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true,
   });
-
-  const result = await res.json();
-  console.log('[deleteCart] Response:', result);
-
-  if (!res.ok) {
-    throw new Error(result.message || 'Failed to delete cart');
-  }
-
-  return result;
 };
 
-export const saveCart = async (items) => {
-  const res = await fetch('http://localhost:3003/api/cart', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ items })
+export const saveCart = async (items, token) => {
+  return axios.post(`${BASE_URL}/api/cart`, { items }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    withCredentials: true,
+    
   });
-
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || 'Failed to save cart');
-  return data;
+  console.log('Sending saveCart request:', { items, token });
 };

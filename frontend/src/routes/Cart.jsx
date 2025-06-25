@@ -116,7 +116,7 @@ function Cart() {
                   <span>Total </span>{convertToCurrencySymbol(currency)}{total.toFixed(2)}
                 </div>
               </div>
-              <Link>Proceed to Checkout</Link>
+              <Link to={'/checkout'}>Proceed to Checkout</Link>
             </div>
             <button onClick={clearCart}>Clear Cart</button>
           </div>

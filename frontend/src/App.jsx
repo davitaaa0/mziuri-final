@@ -16,6 +16,7 @@ import Register from './routes/Register.jsx';
 import Login from './routes/Login.jsx';
 import MyAccount from './routes/MyAccount.jsx';
 import Cart from './routes/Cart.jsx';
+import Checkout from './routes/Checkout.jsx';
 import NotFound from './routes/NotFound.jsx'
 import ForgotPassword from './routes/ForgotPassword.jsx';
 import ResetPassword from './routes/ResetPassword.jsx';
@@ -108,6 +109,10 @@ function App() {
               <Route
                 path="/cart"
                 element={<Cart />}
+              />
+              <Route
+                path="/checkout"
+                element={<Checkout />}
               />
               <Route
                 path="*"

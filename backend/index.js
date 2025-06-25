@@ -28,9 +28,9 @@ app.use(limiter)
 
 app.use(cors({
   origin: [
-    'http://localhost:3003',   
-    'http://localhost:5173',
-    'https://davitaspronia.onrender.com'      
+    'http://localhost:3003',  
+    'http://localhost:3000', 
+    'http://localhost:5173'    
   ],
   credentials: true
 }))

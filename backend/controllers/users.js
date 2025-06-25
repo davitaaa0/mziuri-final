@@ -25,7 +25,12 @@ export const loginUser = async (req, res) => {
         }
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
-        res.cookie('token', token, { httpOnly: true, secure: false, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false, 
+            sameSite: 'None', 
+            maxAge: 24 * 60 * 60 * 1000,
+        });
 
         res.status(200).json({ data: user });
     } catch (err) {
@@ -37,8 +42,8 @@ export const logoutUser = (req, res) => {
     try {
         res.clearCookie('token', {
             httpOnly: true,
-            secure: false,
-            sameSite: 'Lax',
+            secure: false, 
+            sameSite: 'None', 
         });
         res.status(200).json({ data: 'User has logged out' });
     } catch (err) {
@@ -104,7 +109,12 @@ export const registerUser = async (req, res) => {
         await newUser.save()
 
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
-        res.cookie('token', token, { httpOnly: true, secure: false, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: 'None',
+            maxAge: 24 * 60 * 60 * 1000
+        });
 
         res.status(201).json({ data: newUser });
     } catch (err) {

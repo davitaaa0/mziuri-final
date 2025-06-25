@@ -19,6 +19,7 @@ function RouteBanner() {
     '/reset-password': t('ResetPassword'),
     '/myaccount': t('MyAccountPage'),
     '/cart': t('CartPage'),
+    '/checkout': t('Checkout Page'),
     '*': t('Error') + ' 404',
   };
 
@@ -34,6 +35,7 @@ function RouteBanner() {
     '/reset-password': t('ResetPassword'),
     '/myaccount': t('MyAccount'),
     '/cart': t('Cart'),
+    '/checkout': t('Checkout'),
     '*': '404'
   };
 

@@ -26,14 +26,22 @@ const UserProvider = ({ children }) => {
   );
 };
 
-const syncCartAfterLogin = async (token, setCartItems, setCartInitialized) => {
+const syncCartAfterLogin = async (token, setCartItems) => {
   try {
-    const res = await fetch('http://localhost:3000/api/cart', {
+    const res = await fetch('http://localhost:3003/api/cart', {
       headers: { Authorization: `Bearer ${token}` },
       credentials: 'include',
     });
 
-    const backendItems = await res.json();
+    const data = await res.json();
+    console.log('Fetched cart data:', data);
+    const backendItems = Array.isArray(data) ? data : data.items || [];
+
+    if (!Array.isArray(backendItems)) {
+      console.error('Backend cart is not an array:', backendItems);
+      return;
+    }
+
     const localItems = JSON.parse(localStorage.getItem('cart')) || [];
 
     const merged = mergeCarts(localItems, backendItems);
@@ -41,7 +49,7 @@ const syncCartAfterLogin = async (token, setCartItems, setCartInitialized) => {
     setCartItems(merged);
     localStorage.setItem('cart', JSON.stringify(merged));
 
-    await fetch('http://localhost:3000/api/cart', {
+    await fetch('http://localhost:3003/api/cart', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,10 +59,8 @@ const syncCartAfterLogin = async (token, setCartItems, setCartInitialized) => {
       body: JSON.stringify({ items: merged }),
     });
 
-    setCartInitialized(true);
   } catch (err) {
     console.error('Cart sync error:', err);
-    setCartInitialized(true);
   }
 };
 

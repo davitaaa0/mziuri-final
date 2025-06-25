@@ -2,39 +2,46 @@ import Cart from '../models/cart.js'
 
 export const getCart = async (req, res) => {
   try {
-    const cart = await Cart.findOne({ userId: req.user.id }).populate('items.productId');
-    res.json(cart?.items || []);
+    const cart = await Cart.findOne({ user: req.user.id }).populate('items.productId');
+    return res.json(cart?.items || []);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to get cart' });
+    console.error('Error in getCart:', err);
+    return res.status(500).json({ error: 'Failed to get cart' });
   }
 };
 
 export const saveCart = async (req, res) => {
-  const { items } = req.body;
   try {
+    const userId = req.user._id; 
+    const { items } = req.body;
 
-    const updatedCart = await Cart.findOneAndUpdate(
-      { userId: req.user.id },
-      { items },
-      { new: true, upsert: true, setDefaultsOnInsert: true }
-    );
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ error: 'Items must be an array' });
+    }
 
-    res.json({ message: 'Cart saved', cart: updatedCart });
+    let cart = await Cart.findOne({ user: userId });
+
+    if (cart) {
+      cart.items = items;
+      await cart.save();
+    } else {
+      cart = new Cart({ user: userId, items });
+      await cart.save();
+    }
+
+    res.json(cart);
   } catch (err) {
-    console.error('saveCart error:', err);
+    console.error('Error saving cart:', err);
     res.status(500).json({ error: 'Failed to save cart' });
   }
 };
 
-
-export const clearCart = async (req, res) => {
+export const deleteCart = async (req, res) => {
   try {
-    console.log('Clearing cart for user:', req.user?.id);
-
-    await Cart.findOneAndDelete({ userId: req.user.id });
+    await Cart.findOneAndDelete({ user: req.user.id });
     res.json({ message: 'Cart cleared' });
   } catch (err) {
-    console.error('Clear cart error:', err);
-    res.status(500).json({ error: 'Failed to clear cart' });
+    res.status(500).json({ error: 'Failed to delete cart' });
   }
 };
+

@@ -1,13 +1,12 @@
-import { createContext, useState, useEffect, useContext, useRef } from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
 import { UserContext } from './UserContext';
 import { saveCart, deleteCart } from '../api/api';
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cartInitialized, setCartInitialized] = useState(false);
-  const skipInitialSync = useRef(true);
-  const { userData } = useContext(UserContext); 
+  const [syncComplete, setSyncComplete] = useState(false);
+  const { userData } = useContext(UserContext);
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem('cart');
     return saved ? JSON.parse(saved) : [];
@@ -15,19 +14,18 @@ export function CartProvider({ children }) {
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
+    if (!syncComplete) return;
 
-    if (userData && cartInitialized && !skipInitialSync.current) {
-      saveCart(cartItems.map(item => ({
+    if (userData?.token) {
+      const items = cartItems.map(item => ({
         productId: item.productId?._id || item._id,
         quantity: item.quantity,
-      })));
-    }
+      }));
 
-    if (skipInitialSync.current) {
-      skipInitialSync.current = false;
+      console.log('Saving cart to backend:', items); 
+      saveCart(items, userData.token);
     }
-  }, [cartItems, userData, cartInitialized]);
-
+  }, [cartItems, userData, syncComplete]);
 
   const addToCart = (product) => {
   setCartItems((prevItems) => {
@@ -71,20 +69,22 @@ export function CartProvider({ children }) {
   };
 
   const clearCart = async () => {
-    setCartItems([]); 
-    localStorage.removeItem('cart'); 
+    setCartItems([]);
+    localStorage.removeItem('cart');
 
     if (userData) {
+      const token = userData.token;
+      console.log('Token used for deleteCart:', token);
+
       try {
-        await deleteCart();
+        await deleteCart(token);
       } catch (error) {
         console.error('Failed to clear cart on backend:', error);
       }
     }
   };
-
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems, setCartInitialized, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, addToCart, removeFromCart, updateQuantity, clearCart }}>
       {children}
     </CartContext.Provider>
   );
