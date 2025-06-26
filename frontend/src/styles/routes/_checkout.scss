@@ -1,0 +1,164 @@
+@use '../abstracts/variables' as *;
+
+.checkout-page {
+  .empty {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 100px;
+  }
+
+    .checkout {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        gap: 60px;
+        justify-content: space-between;
+        margin-top: 10vh;
+
+        @media (max-width: 991px) {
+            align-items: center;
+            flex-direction: column;
+            gap: 40px;
+            padding: 0 20px;
+            .checkout-summary{
+                margin-bottom: 5vh;
+            }
+        }
+
+    .checkout-details,
+    .checkout-summary {
+        width: 48%;
+        border-radius: 8px;
+    }
+
+    .checkout-details {
+      background: transparent;
+      padding: 40px 40px 50px;
+
+      h2 {
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        color: $pronia-secondary;
+        border-bottom: 1px solid $border-color;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+
+        label {
+          display: block;
+          font-weight: 600;
+          font-size: 0.9rem;
+          margin-bottom: 6px;
+          color: $pronia-secondary;
+          margin-top: 20px;
+        }
+
+        select,
+        input[type='text'],
+        input[type='email'],
+        input[type='tel'],
+        textarea {
+          width: 100%;
+          padding: 12px 15px;
+          border: 1.5px solid $pronia-secondary;
+          border-radius: 6px;
+          font-size: 1rem;
+          font-weight: 400;
+          color: $pronia-secondary;
+          transition: border-color $baseTransition ease;
+
+          &:focus {
+            outline: none;
+            border-color: $pronia-primary;
+            box-shadow: 0 0 5px rgba($pronia-primary, 0.3);
+          }
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: 100px;
+          margin-top: 8px;
+        }
+        #street{
+            margin-bottom: 20px;
+        }
+
+        .names,
+        .zip,
+        .contact-inputs {
+          display: flex;
+          gap: 10%;
+          margin-top: 10px;
+
+          > div {
+            display: flex;
+            flex-direction: column;
+            width: 45%;
+          }
+        }
+      }
+    }
+
+    .checkout-summary {
+      background: #F1F1F1;
+      padding: 40px 30px 50px;
+      height: fit-content;
+
+      h2 {
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        color: $pronia-secondary;
+        text-align: center;
+      }
+
+      .checkout-items {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+
+        .checkout-item {
+          display: flex;
+          justify-content: space-between;
+          font-weight: 600;
+          font-size: 1rem;
+          color: #555;
+          border-bottom: 1px solid #ddd;
+          padding-bottom: 6px;
+        }
+
+        .checkout-total {
+          margin-top: 25px;
+          border-top: 2px solid $border-color;
+          padding-top: 15px;
+          display: flex;
+          justify-content: space-between;
+          font-weight: 700;
+          font-size: 1.25rem;
+          color: $pronia-secondary;
+        }
+
+        .checkout-button {
+          margin-top: 40px;
+          width: 100%;
+          background-color: $pronia-secondary;
+          color: white;
+          font-weight: 700;
+          font-size: 1.1rem;
+          padding: 15px 0;
+          border: none;
+          cursor: pointer;
+          transition: $baseTransition;
+
+          &:hover {
+            background-color: $pronia-primary;
+          }
+        }
+      }
+    }
+  }
+}
