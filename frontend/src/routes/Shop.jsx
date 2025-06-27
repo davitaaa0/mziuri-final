@@ -49,7 +49,6 @@ function Shop() {
   useEffect(() => {
     const fetchProductsData = async () => {
       const data = await api.getProducts();
-      console.log(data);
       if (data?.data) {
         setProducts(data.data);
       } else if (data.err) {

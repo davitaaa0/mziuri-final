@@ -1,27 +1,35 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/users.js';
-import dotenv from 'dotenv';  
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 export const auth = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res.status(401).json({ error: 'Missing or invalid Authorization header' });
   }
 
-  try {
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const token = authHeader.split(' ')[1];
 
-    req.user = await User.findById(decoded.id).select('_id');
-    if (!req.user) {
-      return res.status(401).json({ error: 'Unauthorized' });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    if (!decoded.id && !decoded._id) {
+      return res.status(401).json({ error: 'Token missing user ID' });
     }
 
+    const userId = decoded.id || decoded._id;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(401).json({ error: 'User not found' });
+    }
+    req.user = user; 
     next();
   } catch (err) {
-    res.status(401).json({ error: 'Invalid token' });
+    console.error('JWT verification error:', err.message);
+    return res.status(401).json({ error: 'Invalid token' });
   }
 };

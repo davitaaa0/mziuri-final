@@ -75,7 +75,6 @@ function Home() {
   useEffect(() => {
     const fetchProductsData = async () => {
       const data = await api.getProducts();
-      console.log(data);
       if (data?.data) {
         setProducts(data.data.slice(0, 8));
       } else if (data.err) {

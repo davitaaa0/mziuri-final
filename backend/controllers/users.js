@@ -29,7 +29,7 @@ export const loginUser = async (req, res) => {
 
     const userSafe = user.toObject();
     delete userSafe.password;
-
+    console.log('JWT_SECRET in auth:', process.env.JWT_SECRET_KEY)
     res.status(200).json({ data: { user: userSafe, token } });
   } catch (err) {
     res.status(500).json({ err: err.message });

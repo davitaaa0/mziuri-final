@@ -1,58 +1,15 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import { UserContext } from './UserContext';
+import { fetchCart, saveCart } from '../api/api';
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const { userData } = useContext(UserContext);
+  const { userData } = useContext(UserContext); 
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem('cart');
     return saved ? JSON.parse(saved) : [];
   });
-
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-  }, [cartItems]);
-
-  useEffect(() => {
-    const syncCartAfterLogin = async () => {
-      if (!userData?.token) return;
-
-      try {
-        const res = await axios.get('http://localhost:3003/api/cart', {
-          headers: { Authorization: `Bearer ${userData.token}` },
-          withCredentials: true,
-        });
-
-        const data = res.data;
-        const backendItems = Array.isArray(data) ? data : data.items || [];
-
-        const localItems = JSON.parse(localStorage.getItem('cart')) || [];
-        const merged = mergeCarts(localItems, backendItems);
-
-        setCartItems(merged);
-        localStorage.setItem('cart', JSON.stringify(merged));
-        
-        await axios.post(
-          'http://localhost:3003/api/cart',
-          { items: merged },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${userData.token}`,
-            },
-            withCredentials: true,
-          }
-        );
-      } catch (err) {
-        console.error('Cart sync failed:', err);
-      }
-    };
-
-    syncCartAfterLogin();
-  }, [userData]);
-
 
   const mergeCarts = (local, backend) => {
     const map = new Map();
@@ -106,6 +63,27 @@ export function CartProvider({ children }) {
   };
 
   const clearCart = () => setCartItems([]);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  useEffect(() => {
+    const syncCart = async () => {
+      if (userData?.token) {
+        try {
+          const backendCart = await fetchCart(userData.token);
+          const merged = mergeCarts(cartItems, backendCart.items || []);
+          setCartItems(merged);
+          await saveCart(merged, userData.token);
+        } catch (err) {
+          console.error('Error syncing cart:', err.response?.status, err.response?.data);
+        }
+      }
+    };
+
+    syncCart();
+  }, [userData?.token]);
 
   return (
     <CartContext.Provider
