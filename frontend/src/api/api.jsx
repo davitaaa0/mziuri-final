@@ -114,21 +114,33 @@ export const resetPasswordUser = async (data, token) => {
 };
 
 export const fetchCart = async (token) => {
-  const res = await axios.get(`${BASE_URL}/api/cart`, {
-    headers: { Authorization: `Bearer ${token}` },
-    withCredentials: true,
-  });
-  return res.data;
+  try {
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const res = await axios.get(`${BASE_URL}/api/cart`, {
+      headers,
+      withCredentials: true,
+    });
+    return res.data;
+  } catch (error) {
+    console.error('Error fetching cart:', error.response?.data || error.message);
+    throw error;
+  }
 };
 
 export const saveCart = async (items, token) => {
-  await axios.post(
-    `${BASE_URL}/api/cart`,
-    { items },
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: true,
-    }
-  );
+  try {
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    await axios.post(
+      `${BASE_URL}/api/cart`,
+      { items },
+      {
+        headers,
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    console.error('Error saving cart:', error.response?.data || error.message);
+    throw error;
+  }
 };
 
