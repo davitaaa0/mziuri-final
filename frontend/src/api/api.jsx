@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://davitaspronia.onrender.com/'; 
+const BASE_URL = 'https://davitaspronia.onrender.com'; 
 
 export const getProducts = async () => {
   try {
