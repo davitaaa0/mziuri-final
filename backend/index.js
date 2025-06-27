@@ -28,8 +28,6 @@ app.use(limiter)
 
 app.use(cors({
   origin: [
-    'http://localhost:3003',  
-    'http://localhost:3000', 
     'http://localhost:5173',
     'https://davitaspronia.onrender.com',    
   ],
@@ -44,7 +42,7 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         frameSrc: ["'self'", "https://www.google.com"],
-        imgSrc: ["'self'", "data:", "http://localhost:3003", "https://htmldemo.net"],
+        imgSrc: ["'self'", "data:", "http://localhost:3003", "https://davitaspronia.onrender.com/", "https://htmldemo.net"],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
@@ -87,7 +85,7 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT, () => {
   console.log('Server has started')
   connectDB(process.env.CONNECTION_STRING)
 })

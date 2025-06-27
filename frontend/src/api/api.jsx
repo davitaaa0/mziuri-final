@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3003'; 
+const BASE_URL = 'https://davitaspronia.onrender.com/'; 
 
 export const getProducts = async () => {
   try {
